@@ -2,16 +2,10 @@
   <div class="background-page w-full h-screen flex font-satoshi font-normal">
     <!-- Current weather background -->
     <div class="current-weather h-full flex flex-col px-9 bg-white border-r">
-      <!-- Search -->
-<!--      <div class="search w-full relative">-->
-<!--        <input type="text" placeholder="Search City...." class="search-input w-full" />-->
-<!--        <span class="icon-wrapper absolute left-0 top-1/2 -translate-y-1/2 ml-9">-->
-<!--          <Icon name="ph:magnifying-glass" size="20px" />-->
-<!--        </span>
-      </div> -->
-      <div class="current-location">
-        <Icon name="ci:location" size="29px"/>
-        <span class="font-medium">Almaty</span>
+      <!-- Logotype -->
+      <div class="logo">
+        <img src="/assets/images/weather-app.png" alt="weather">
+        <span class="font-bold">Weather</span>
       </div>
       <!-- Current weather -->
       <div class="flex justify-center box-content gap-7 mt-5">
@@ -57,8 +51,26 @@
     </div>
     <!-- Right sight of the page -->
     <div class="flex-1">
-      <header class="bg-white px-8 border-b flex items-center">
-        Header
+      <header class="w-full bg-white px-12 border-b flex items-center justify-between">
+        <!-- Current location -->
+        <div class="current-location">
+          <Icon name="ci:location" size="28px"/>
+          <span class="font-bold">Almaty</span>
+        </div>
+        <!-- Search -->
+        <div class="search w-full relative">
+          <input type="text" placeholder="Search City...." class="search-input w-full" />
+          <span class="icon-wrapper absolute left-0 top-1/2 -translate-y-1/2 ml-9">
+            <Icon name="ph:magnifying-glass" size="20px" />
+          </span>
+        </div>
+        <!-- Date -->
+        <div class="today-date">
+          <div class="font-bold">
+            Monday <span class="font-medium opacity-80 ml-0.5">15:30</span>
+          </div>
+          <span class="font-medium opacity-65">02 July 2024</span>
+        </div>
       </header>
       <div> <!-- Other weather suggestions -->
 

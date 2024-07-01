@@ -17,40 +17,15 @@
     border-color: #f1f1f1;
 }
 
-.current-location {
+.logo {
     height: 110px;
-    @apply flex justify-start items-center gap-1.5;
+    @apply flex justify-start items-center gap-3.5;
 }
-.current-location .iconify {
-    @apply text-blue-500;
+.logo img {
+    width: 42px;
 }
-.current-location span {
-    font-size: 21px;
-}
-
-.search input {
-    height: 50px;
-
-    border-radius: 24px;
-    border: 1px solid #d8d8d8;
-    background: #fbfbfb;
-
-    padding: 0 66px;
-    margin: 30px 0;
-
-    font-size: 15.5px;
-}
-.search input:focus {
-    @apply outline-none border-blue-400;
-}
-.search-input:focus + .icon-wrapper .iconify {
-    @apply text-blue-400;
-}
-.icon-wrapper {
-    height: 20px;
-}
-.icon-wrapper .iconify {
-    color: #aaadb8;
+.logo span {
+    font-size: 25px;
 }
 
 .current-weather-icon {
@@ -87,4 +62,49 @@
 header {
     height: 110px;
     border-color: #f1f1f1;
+}
+
+.current-location {
+    @apply flex items-end;
+    gap: 6px;
+}
+.current-location .iconify {
+    @apply text-blue-500;
+}
+.current-location span {
+    font-size: 18px;
+    opacity: .9;
+}
+
+.search {
+    width: 400px;
+    margin-right: 90px;
+}
+.search input {
+    height: 50px;
+
+    border-radius: 24px;
+    border: 1px solid #d8d8d8;
+    background: #fbfbfb;
+
+    padding: 0 66px;
+    margin: 30px 0;
+
+    font-size: 15.5px;
+}
+.search input:focus {
+    @apply outline-none border-blue-400;
+}
+.search-input:focus + .icon-wrapper .iconify {
+    @apply text-blue-400;
+}
+.icon-wrapper {
+    height: 20px;
+}
+.icon-wrapper .iconify {
+    color: #aaadb8;
+}
+
+.today-date div {
+    font-size: 21px;
 }
