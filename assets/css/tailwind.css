@@ -2,7 +2,89 @@
 @tailwind components;
 @tailwind utilities;
 
+/* Custom font-family */
 @font-face {
     font-family: Satoshi;
     src: url("/assets/fonts/Satoshi-Variable.ttf");
+}
+
+.background-page {
+    background: #f4f4f4;
+}
+
+.current-weather {
+    width: 390px;
+    border-color: #f1f1f1;
+}
+
+.current-location {
+    height: 110px;
+    @apply flex justify-start items-center gap-1.5;
+}
+.current-location .iconify {
+    @apply text-blue-500;
+}
+.current-location span {
+    font-size: 21px;
+}
+
+.search input {
+    height: 50px;
+
+    border-radius: 24px;
+    border: 1px solid #d8d8d8;
+    background: #fbfbfb;
+
+    padding: 0 66px;
+    margin: 30px 0;
+
+    font-size: 15.5px;
+}
+.search input:focus {
+    @apply outline-none border-blue-400;
+}
+.search-input:focus + .icon-wrapper .iconify {
+    @apply text-blue-400;
+}
+.icon-wrapper {
+    height: 20px;
+}
+.icon-wrapper .iconify {
+    color: #aaadb8;
+}
+
+.current-weather-icon {
+    width: 50%;
+}
+.current-temp {
+    font-size: 50px;
+}
+
+.temp-detail {
+    @apply flex items-start gap-2;
+}
+.temp-detail img {
+    height: 22px;
+}
+
+.current-date div {
+    margin-top: 8px;
+    font-size: 25.5px;
+}
+
+.detail-item {
+    height: 60px;
+    background: #e9f3fd;
+    @apply w-full flex items-center px-6 gap-4 rounded-xl;
+}
+.detail-item img {
+    width: 40px;
+}
+.detail-item-span {
+    @apply mb-0.5 font-medium opacity-90;
+}
+
+header {
+    height: 110px;
+    border-color: #f1f1f1;
 }
