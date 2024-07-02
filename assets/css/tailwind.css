@@ -11,11 +11,13 @@
 /* Background */
 .background-page {
     background: #f4f4f4;
+    @apply w-full h-screen font-satoshi font-normal;
 }
 
 /* Header */
 header {
     height: 110px;
+    @apply w-full bg-white pr-9 flex items-center justify-between;
 }
 
 /* Logotype */
@@ -47,8 +49,10 @@ header {
 .search {
     width: 400px;
     margin-right: 90px;
+    position: relative;
 }
 .search input {
+    width: 100%;
     height: 50px;
 
     border-radius: 24px;
@@ -68,43 +72,64 @@ header {
 }
 .icon-wrapper {
     height: 20px;
+    @apply absolute left-0 top-1/2 -translate-y-1/2 ml-9;
 }
 .icon-wrapper .iconify {
     color: #aaadb8;
 }
 
 /* Today's date on header */
+.today-date {
+    @apply flex flex-col items-end;
+}
 .today-date div {
     font-size: 22px;
 }
+.today-date div span {
+    @apply font-medium opacity-80 ml-0.5;
+}
 .today-date > span {
     font-size: 17px;
+    @apply font-medium opacity-65;
+}
+
+/* Bottom side with all weather info */
+.weather-dashboard {
+    @apply w-full h-[calc(100%-110px)] flex;
 }
 
 /* Current weather information back */
-.current-weather {
+.current-weather-back {
     width: 390px;
+    @apply h-full overflow-y-auto flex flex-col px-9;
+    background: #ffffff;
     /*border-color: #f1f1f1;*/
 }
-.current-weather::-webkit-scrollbar {
+.current-weather-back::-webkit-scrollbar {
     width: 5px;
 }
-.current-weather::-webkit-scrollbar-track
+.current-weather-back::-webkit-scrollbar-track
 {
     background: transparent;
 }
-.current-weather::-webkit-scrollbar-thumb
+.current-weather-back::-webkit-scrollbar-thumb
 {
     background: #d3d3d3;
     border-radius: 3px;
 }
 
+/* Current weather */
+.current-weather {
+    @apply flex justify-center box-content gap-7 mt-5;
+}
+
 /* Current weather part */
 .current-weather-icon {
-    width: 50%;
+    @apply w-1/2 object-contain;
 }
 .current-temp {
     font-size: 50px;
+    font-weight: 900;
 }
 
 /* Curr weather temperature details */
@@ -114,14 +139,34 @@ header {
 .temp-detail img {
     height: 22px;
 }
+.temp-detail span {
+    @apply font-medium opacity-80;
+}
 
 /* Current date */
 .current-date div {
-    margin-top: 8px;
     font-size: 25.5px;
+    margin-top: 8px;
+}
+.current-date > span {
+    font-size: 16.5px;
+    @apply font-medium opacity-55;
+}
+.current-date div span:first-child {
+    @apply font-black;
+}
+.current-date div span:last-child {
+    @apply font-medium opacity-55;
 }
 
-/* Details */
+/* Current weather details */
+.weather-details {
+    @apply w-full mt-7;
+}
+.weather-details > span {
+    font-size: 16.5px;
+    @apply font-medium opacity-55;
+}
 .detail-item {
     height: 60px;
     background: #e9f3fd;
@@ -134,23 +179,59 @@ header {
     @apply mb-0.5 font-medium opacity-90;
 }
 
-.swiper {
-    width: 100%;
+/* Right sight, weather suggestions */
+.weather-suggestions {
+    @apply w-[calc(100%-390px)] pl-10 pt-12;
+}
+.suggestion-item {
+    @apply w-full;
+}
+
+/* Title and Navigation */
+.title_nav {
+    @apply flex justify-between items-center pr-10;
+}
+.title_nav span {
+    @apply font-medium text-xl;
+}
+.swiper-navigation {
+    @apply flex items-center gap-2;
 }
 .swiper-navigation button {
     width: 34px;
     height: 34px;
+    transition: .2s;
+
+    @apply rounded-3xl flex justify-center items-center;
 }
 .swiper-navigation button .iconify {
     transform: rotate(225deg);
+    @apply cursor-pointer;
 }
 .swiper-navigation button:nth-child(2) .iconify {
     transform: rotate(45deg);
 }
 
+/* Swiper */
+.swiper {
+    width: 100%;
+}
+.swiper-slide {
+    width: fit-content !important;
+    height: fit-content !important;
+}
+.swiper-slide:last-child {
+    margin-right: 40px;
+}
+
+/* Weather card */
 .weather-card {
     width: 160px;
-    /*height: 180px;*/
+    height: 185px;
+
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
 
     background: white;
     box-sizing: content-box;
@@ -158,17 +239,44 @@ header {
 
     padding: 20px 25px;
 }
-.weather-card:last-child {
-    margin-right: 40px;
-}
 .weather-card > span:first-child {
     font-size: 18px;
-    font-weight: 500;
+    font-weight: 600;
 }
 .weather-card img {
     width: 75%;
-    margin: 5px auto 12px;
+    margin: 0 auto 5px;
 }
 .weather-card div span {
     font-size: 22px;
+}
+
+/* Other city card */
+.other-city-card {
+    border-radius: 22px;
+    padding: 30px;
+
+    @apply w-fit flex items-center bg-white;
+}
+.other-city-card ul {
+    margin-right: 50px;
+}
+.other-city-card ul li:first-child {
+    font-size: 22px;
+    font-weight: 500;
+}
+.other-city-card ul li:last-child {
+    font-size: 16.5px;
+    font-weight: 500;
+    opacity: .7;
+}
+.other-city-card img {
+    width: 85px;
+    object-fit: contain;
+
+    margin-right: 18px;
+}
+.other-city-card span {
+    font-size: 42px;
+    font-weight: 900;
 }
