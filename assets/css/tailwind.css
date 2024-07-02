@@ -8,18 +8,20 @@
     src: url("/assets/fonts/Satoshi-Variable.ttf");
 }
 
+/* Background */
 .background-page {
     background: #f4f4f4;
 }
 
-.current-weather {
-    width: 390px;
-    border-color: #f1f1f1;
+/* Header */
+header {
+    height: 110px;
 }
 
+/* Logotype */
 .logo {
     height: 110px;
-    @apply flex justify-start items-center gap-3.5;
+    @apply flex justify-start items-center gap-3.5 relative pl-9 mr-16;
 }
 .logo img {
     width: 42px;
@@ -28,42 +30,7 @@
     font-size: 25px;
 }
 
-.current-weather-icon {
-    width: 50%;
-}
-.current-temp {
-    font-size: 50px;
-}
-
-.temp-detail {
-    @apply flex items-start gap-2;
-}
-.temp-detail img {
-    height: 22px;
-}
-
-.current-date div {
-    margin-top: 8px;
-    font-size: 25.5px;
-}
-
-.detail-item {
-    height: 60px;
-    background: #e9f3fd;
-    @apply w-full flex items-center px-6 gap-4 rounded-xl;
-}
-.detail-item img {
-    width: 40px;
-}
-.detail-item-span {
-    @apply mb-0.5 font-medium opacity-90;
-}
-
-header {
-    height: 110px;
-    border-color: #f1f1f1;
-}
-
+/* Current location */
 .current-location {
     @apply flex items-end;
     gap: 6px;
@@ -76,6 +43,7 @@ header {
     opacity: .9;
 }
 
+/* Search */
 .search {
     width: 400px;
     margin-right: 90px;
@@ -84,7 +52,7 @@ header {
     height: 50px;
 
     border-radius: 24px;
-    border: 1px solid #d8d8d8;
+    border: 1px solid #d6d6d6;
     background: #fbfbfb;
 
     padding: 0 66px;
@@ -105,6 +73,102 @@ header {
     color: #aaadb8;
 }
 
+/* Today's date on header */
 .today-date div {
-    font-size: 21px;
+    font-size: 22px;
+}
+.today-date > span {
+    font-size: 17px;
+}
+
+/* Current weather information back */
+.current-weather {
+    width: 390px;
+    /*border-color: #f1f1f1;*/
+}
+.current-weather::-webkit-scrollbar {
+    width: 5px;
+}
+.current-weather::-webkit-scrollbar-track
+{
+    background: transparent;
+}
+.current-weather::-webkit-scrollbar-thumb
+{
+    background: #d3d3d3;
+    border-radius: 3px;
+}
+
+/* Current weather part */
+.current-weather-icon {
+    width: 50%;
+}
+.current-temp {
+    font-size: 50px;
+}
+
+/* Curr weather temperature details */
+.temp-detail {
+    @apply flex items-start gap-2;
+}
+.temp-detail img {
+    height: 22px;
+}
+
+/* Current date */
+.current-date div {
+    margin-top: 8px;
+    font-size: 25.5px;
+}
+
+/* Details */
+.detail-item {
+    height: 60px;
+    background: #e9f3fd;
+    @apply w-full flex items-center px-6 gap-4 rounded-xl;
+}
+.detail-item img {
+    width: 35px;
+}
+.detail-item-span {
+    @apply mb-0.5 font-medium opacity-90;
+}
+
+.swiper {
+    width: 100%;
+}
+.swiper-navigation button {
+    width: 34px;
+    height: 34px;
+}
+.swiper-navigation button .iconify {
+    transform: rotate(225deg);
+}
+.swiper-navigation button:nth-child(2) .iconify {
+    transform: rotate(45deg);
+}
+
+.weather-card {
+    width: 160px;
+    /*height: 180px;*/
+
+    background: white;
+    box-sizing: content-box;
+    border-radius: 22px;
+
+    padding: 20px 25px;
+}
+.weather-card:last-child {
+    margin-right: 40px;
+}
+.weather-card > span:first-child {
+    font-size: 18px;
+    font-weight: 500;
+}
+.weather-card img {
+    width: 75%;
+    margin: 5px auto 12px;
+}
+.weather-card div span {
+    font-size: 22px;
 }

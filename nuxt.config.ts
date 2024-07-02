@@ -5,7 +5,8 @@ export default defineNuxtConfig({
   },
   modules: [
     '@nuxtjs/tailwindcss',
-    '@nuxt/icon'
+    '@nuxt/icon',
+    'nuxt-swiper'
   ],
   css: [
     '~/assets/css/tailwind.css',
