@@ -9,21 +9,28 @@
       <!-- Current location -->
       <div class="current-location">
         <Icon name="ci:location" size="28px"/>
-        <span class="font-bold">{{ weather?.location.name }}</span>
+        <span class="font-bold">{{ weeklyWeather?.location.name }}</span>
       </div>
       <!-- Search -->
       <div class="search">
-        <input type="text" placeholder="Search City...." class="search-input" />
-        <span class="icon-wrapper">
+        <div class="search-input-back">
+          <input type="text" v-model="searchQuery" @keyup="searchCities" placeholder="Search City...." class="search-input" />
+          <span class="icon-wrapper">
             <Icon name="ph:magnifying-glass" size="20px" />
           </span>
+        </div>
+        <ul class="search-result" :style="{ display: citiesList.length > 0 ? 'block' : 'none' }">
+          <li v-for="city in citiesList" @click="getWeather(city.name)">
+            {{city.name}} <Icon name="material-symbols-light:chevron-right-rounded" size="28px" />
+          </li>
+        </ul>
       </div>
       <!-- Date -->
       <div class="today-date">
         <div class="font-bold">
-          Monday <span>15:30</span>
+          {{dayOfWeek}} <span>{{formattedTime}}</span>
         </div>
-        <span>02 July 2024</span>
+        <span>{{formattedDate}}</span>
       </div>
     </header>
     <!-- Weather dashboard -->
@@ -32,16 +39,28 @@
       <div class="current-weather-back">
         <!-- Current weather -->
         <div class="current-weather">
-          <img src="/assets/images/cloudy2.png" alt="weather" class="current-weather-icon">
+          <img v-if="weeklyWeather?.current.condition.code === 1000" src="/assets/images/sun.png" alt="weather" class="current-weather-icon">
+          <img v-else-if="weeklyWeather?.current.condition.code === 1003 || weeklyWeather?.current.condition.code === 1006" src="/assets/images/cloudy2.png" alt="weather" class="current-weather-icon">
+          <img v-else-if="weeklyWeather?.current.condition.code > 1006 && weeklyWeather?.current.condition.code < 1063" src="/assets/images/clouds2.png" alt="weather" class="current-weather-icon">
+          <img v-else-if="weeklyWeather?.current.condition.code === 1063 || weeklyWeather?.current.condition.code === 1072" src="/assets/images/rain2.png" alt="weather" class="current-weather-icon">
+          <img v-else-if="weeklyWeather?.current.condition.code >= 1150 && weeklyWeather?.current.condition.code <= 1207" src="/assets/images/rain2.png" alt="weather" class="current-weather-icon">
+          <img v-else-if="weeklyWeather?.current.condition.code >= 1240 && weeklyWeather?.current.condition.code <= 1246" src="/assets/images/rain2.png" alt="weather" class="current-weather-icon">
+          <img v-else-if="weeklyWeather?.current.condition.code >= 1261 && weeklyWeather?.current.condition.code <= 1264" src="/assets/images/rain2.png" alt="weather" class="current-weather-icon">
+          <img v-else-if="weeklyWeather?.current.condition.code === 1066 || weeklyWeather?.current.condition.code === 1069 || weeklyWeather?.current.condition.code === 1114 || weeklyWeather?.current.condition.code === 1117" src="/assets/images/snow.png" alt="weather" class="current-weather-icon">
+          <img v-else-if="weeklyWeather?.current.condition.code >= 1210 && weeklyWeather?.current.condition.code <= 1237" src="/assets/images/snow.png" alt="weather" class="current-weather-icon">
+          <img v-else-if="weeklyWeather?.current.condition.code >= 1210 && weeklyWeather?.current.condition.code <= 1237" src="/assets/images/snow.png" alt="weather" class="current-weather-icon">
+          <img v-else-if="weeklyWeather?.current.condition.code >= 1252 && weeklyWeather?.current.condition.code <= 1258" src="/assets/images/snow.png" alt="weather" class="current-weather-icon">
+          <img v-else-if="weeklyWeather?.current.condition.code >= 1279 && weeklyWeather?.current.condition.code <= 1282" src="/assets/images/snow.png" alt="weather" class="current-weather-icon">
+          <img v-else-if="weeklyWeather?.current.condition.code === 1087 || weeklyWeather?.current.condition.code === 1273 || weeklyWeather?.current.condition.code === 1276" src="/assets/images/thunder.png" alt="weather" class="current-weather-icon">
           <div>
-            <span class="current-temp">18°C</span>
+            <span class="current-temp">{{Math.round(weeklyWeather?.current.temp_c)}}°C</span>
             <div class="temp-detail mb-2">
               <img src="/assets/images/high-temp.png" alt="h-temp">
-              <span>H: 25°C</span>
+              <span>H: {{Math.round(weeklyWeather?.forecast.forecastday[0].day.maxtemp_c)}}°C</span>
             </div>
             <div class="temp-detail">
               <img src="/assets/images/low-temp.png" alt="l-temp">
-              <span>L: 15°C</span>
+              <span>L: {{Math.round(weeklyWeather?.forecast.forecastday[0].day.mintemp_c)}}°C</span>
             </div>
           </div>
         </div>
@@ -51,8 +70,8 @@
         <div class="current-date">
           <span>Date Today</span>
           <div class="flex gap-5">
-            <span>Monday</span>
-            <span>15:30</span>
+            <span>{{dayOfWeek}}</span>
+            <span>{{formattedTime}}</span>
           </div>
         </div>
         <!-- Current weather details -->
@@ -60,15 +79,15 @@
           <span>Weather Details</span>
           <div class="detail-item mt-5">
             <img src="/assets/images/cloud2.png" alt="cloud" style="width: 37px">
-            <span class="detail-item-span">Mostly Cloudly</span>
+            <span class="detail-item-span">{{weeklyWeather?.current.condition.text}}</span>
           </div>
           <div class="detail-item mt-3">
             <img src="/assets/images/humidity.png" alt="humidity">
-            <span class="detail-item-span">Humidity - 77%</span>
+            <span class="detail-item-span">Humidity - {{weeklyWeather?.current.humidity}}%</span>
           </div>
           <div class="detail-item mt-3">
             <img src="/assets/images/wind.png" alt="wind">
-            <span class="detail-item-span">Wind - 6km/h</span>
+            <span class="detail-item-span">Wind - {{Math.round(weeklyWeather?.current.wind_kph)}}km/h</span>
           </div>
         </div>
       </div>
@@ -80,10 +99,10 @@
           <div class="title_nav">
             <span>Weekly Forecast</span>
             <div class="swiper-navigation">
-              <button @click="goToPrevWeeklySlide" class="border border-black hover:opacity-70">
+              <button class="weekly-nav-prev border border-black hover:opacity-70">
                 <Icon name="prime:arrow-up-right" size="21" class="opacity-85" />
               </button>
-              <button @click="goToNextWeeklySlide" class="bg-blue-500 hover:bg-blue-400">
+              <button class="weekly-nav-next bg-blue-500 hover:bg-blue-400">
                 <Icon name="prime:arrow-up-right" size="21" class="text-white" />
               </button>
             </div>
@@ -92,11 +111,12 @@
             ref="weeklySwiper"
             :slides-per-view="'auto'"
             :space-between="20"
+            :navigation="{ nextEl: '.weekly-nav-next', prevEl: '.weekly-nav-prev' }"
             @swiper="onWeeklySwiper"
             class="mt-5"
           >
             <SwiperSlide v-for="ind in 7" :key="ind">
-              <WeatherCard :slide="ind" />
+              <WeatherCard :weather="weeklyWeather?.forecast.forecastday[ind - 1]" :index="ind - 1" />
             </SwiperSlide>
           </Swiper>
         </div>
@@ -106,10 +126,10 @@
           <div class="title_nav">
             <span>Other Cities Weather</span>
             <div class="swiper-navigation">
-              <button @click="goToPrevCitiesSlide" class="border border-black hover:opacity-70">
+              <button class="cities-nav-prev border border-black hover:opacity-70">
                 <Icon name="prime:arrow-up-right" size="21" class="opacity-85" />
               </button>
-              <button @click="goToNextCitiesSlide" class="bg-blue-500 hover:bg-blue-400">
+              <button class="cities-nav-next bg-blue-500 hover:bg-blue-400">
                 <Icon name="prime:arrow-up-right" size="21" class="text-white" />
               </button>
             </div>
@@ -118,11 +138,12 @@
               ref="citiesSwiper"
               :slides-per-view="'auto'"
               :space-between="20"
+              :navigation="{ nextEl: '.cities-nav-next', prevEl: '.cities-nav-prev' }"
               @swiper="onCitiesSwiper"
               class="mt-5"
           >
             <SwiperSlide v-for="ind in 10" :key="ind">
-              <OtherCityCard :slide="ind" />
+              <OtherCityCard :index="ind - 1" />
             </SwiperSlide>
           </Swiper>
         </div>
@@ -133,22 +154,116 @@
 
 <script setup>
 
+  import { onMounted, onUnmounted, ref } from 'vue'
+  import { format } from 'date-fns'
+
   import { Swiper, SwiperSlide } from "swiper/vue";
+  import { Navigation, Pagination } from "swiper/modules";
+  import SwiperCore from "swiper";
   import "swiper/swiper-bundle.css";
 
-  import { fetchWeather} from "~/services/WeatherService.js";
+  import { fetchCurrentWeather, fetchWeeklyWeather } from "~/services/WeatherService.js";
+  import { fetchCity, getLocation } from "~/services/UserLocationService.js";
 
-  const weather = ref(null);
+  import { search, randomCitiesList } from "~/services/SearchCityService.js";
+  import { debounce } from "lodash";
 
-  // const { data: weatherInfo } = await axios.get(`https://api.openweathermap.org/data/3.0/onecall?lat=33.44&lon=-94.04&exclude=hourly,daily&appid=${apiKey}`)
-  const getWeather = async () => {
+  const currentDate = ref(new Date())
+  const currentWeather = ref(null);
+  const weeklyWeather = ref(null);
+  const city = ref(null);
+
+  let citiesWeather = ref([]);
+
+  let citiesList = ref([]);
+  const searchQuery = ref('');
+
+  SwiperCore.use([Navigation, Pagination]);
+
+  onMounted(async () => {
+    const interval = setInterval(() => {
+      currentDate.value = new Date()
+    }, 1000);
+
+    onUnmounted(() => {
+      clearInterval(interval)
+    });
+
+    await userLocation();
+  });
+
+  // Date configurations
+  const formattedDate = computed(() => {
+    return format(currentDate.value, 'dd') + " " + currentDate.value.toLocaleDateString('en-US', {
+      month: 'long',
+      year: 'numeric'
+    }).replace(',', ' ')
+  });
+  const formattedTime = computed(() => {
+    return format(currentDate.value, 'HH:mm')
+  });
+  const dayOfWeek = computed(() => {
+    return format(currentDate.value, 'EEEE')
+  });
+
+  // Current user location
+  const userLocation = async () => {
     try {
-      weather.value = await fetchWeather("Almaty");
-    } catch (error) {
+      const pos = await getLocation()
+      city.value = await fetchCity(pos.latitude, pos.longitude);
+
+      if(city.value != null) {
+        await getWeather(city.value);
+      }
+    } catch(error) {
+      console.error('Cannot find user position and city:', error);
+    }
+  }
+
+  // Current weather
+  const getWeather = async (city) => {
+    try {
+      // currentWeather.value = await fetchCurrentWeather(city);
+      weeklyWeather.value = await fetchWeeklyWeather(city);
+
+      citiesWeather = await randomCitiesList(weeklyWeather?.value.location.country, 10);
+
+      searchQuery.value = '';
+      citiesList = [];
+
+    } catch(error) {
       console.error('Error fetching weather data:', error);
     }
   };
 
+  // const getOtherCityWeather = async () => {
+  //   setTimeout(() => {
+  //     try {
+  //       // for(let i = 0; i < citiesWeather.length; i++) {
+  //       //   console.log(citiesWeather[i].name);
+  //       //   return await fetchCurrentWeather(citiesWeather[i].name);
+  //       // }
+  //       citiesWeather.forEach((city) => {
+  //         console.log(city.name);
+  //         return fetchCurrentWeather(city.name)
+  //       })
+  //     } catch (error) {
+  //       console.error('Error fetching weather data:', error);
+  //       return null;
+  //     }
+  //   }, 5000);
+  // };
+
+  // Search
+  const searchCities = debounce(() => {
+    const query = searchQuery.value.trim().toLowerCase().replace(/\b\w/g, match => match.toUpperCase());
+
+    if(query.length >= 3) {
+      citiesList = search(query);
+    } else {
+      citiesList = [];
+    }
+  });
 
   // Swiper configurations
   const weeklySwiper = ref(null);
@@ -159,22 +274,6 @@
   };
   const onCitiesSwiper = (swiper) => {
     citiesSwiper.value = swiper;
-  };
-  // Navigation for Weekly Forecast
-  const goToNextWeeklySlide = () => {
-    if(weeklySwiper.value) weeklySwiper.value.slideNext();
-  };
-  const goToPrevWeeklySlide = () => {
-    if(weeklySwiper.value) weeklySwiper.value.slidePrev();
-  };
-  // Navigation for Other Cities
-  const goToNextCitiesSlide = () => {
-    if(citiesSwiper.value) citiesSwiper.value.slideNext();
-  };
-  const goToPrevCitiesSlide = () => {
-    if(citiesSwiper.value) citiesSwiper.value.slidePrev();
-    getWeather();
-    console.log(weather);
   };
 
 </script>

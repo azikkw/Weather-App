@@ -1,7 +1,7 @@
 <template><!-- Other city card -->
   <div class="other-city-card">
     <ul>
-      <li>Pavlodar</li>
+      <li>Almaty</li>
       <li>Mostly Sunny</li>
     </ul>
     <img src="/assets/images/cloudy2.png" alt="weather-icon">
@@ -11,6 +11,6 @@
 
 <script setup lang="ts">
 
-  const { slide } = defineProps(['slide'])
+  const { city, index } = defineProps(['city', 'index'])
 
 </script>

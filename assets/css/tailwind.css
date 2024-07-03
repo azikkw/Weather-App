@@ -77,6 +77,50 @@ header {
 .icon-wrapper .iconify {
     color: #aaadb8;
 }
+.search-result {
+    @apply w-full absolute top-0 left-0 rounded-2xl z-10;
+
+    border: 1px solid #d6d6d6;
+    background: #fbfbfb;
+
+    margin-top: 90px;
+    padding: 10px 24px 5px;
+
+    max-height: 290px;
+    overflow-y: auto;
+}
+.search-result::-webkit-scrollbar {
+    width: 5px;
+}
+.search-result::-webkit-scrollbar-track
+{
+    background: transparent;
+}
+.search-result::-webkit-scrollbar-thumb
+{
+    background: #d3d3d3;
+    border-radius: 3px;
+}
+.search-result li {
+    height: 40px;
+    /*background: red;*/
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 1px solid #dddddd;
+    padding-left: 5px;
+    cursor: pointer;
+}
+.search-result li:last-child {
+    border-bottom: none;
+}
+.search-result li .iconify {
+    opacity: .8;
+    margin-right: -8px;
+}
+.search-result li:hover {
+    border-color: #b3b3b3;
+}
 
 /* Today's date on header */
 .today-date {
@@ -197,7 +241,10 @@ header {
 .swiper-navigation {
     @apply flex items-center gap-2;
 }
-.swiper-navigation button {
+.weekly-nav-prev,
+.weekly-nav-next,
+.cities-nav-prev,
+.cities-nav-next {
     width: 34px;
     height: 34px;
     transition: .2s;
@@ -244,7 +291,8 @@ header {
     font-weight: 600;
 }
 .weather-card img {
-    width: 75%;
+    width: 145px;
+    object-fit: contain;
     margin: 0 auto 5px;
 }
 .weather-card div span {
