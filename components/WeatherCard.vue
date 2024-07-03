@@ -3,7 +3,7 @@
   <div v-if="slide === 1" class="weather-card !w-fit block">
     <span>Today</span>
     <div class="flex gap-7">
-      <img src="/assets/images/sun2.png" alt="weather-card-img" style="width: 140px; object-fit: contain">
+      <img src="/assets/images/cloudy2.png" alt="weather-card-img" style="width: 140px; object-fit: contain">
       <div class="mr-1">
         <ul style="font-size: 30px">
           <li class="font-black">25°C</li>

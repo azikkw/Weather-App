@@ -9,7 +9,7 @@
       <!-- Current location -->
       <div class="current-location">
         <Icon name="ci:location" size="28px"/>
-        <span class="font-bold">Almaty</span>
+        <span class="font-bold">{{ weather?.location.name }}</span>
       </div>
       <!-- Search -->
       <div class="search">
@@ -32,7 +32,7 @@
       <div class="current-weather-back">
         <!-- Current weather -->
         <div class="current-weather">
-          <img src="/assets/images/clouds2.png" alt="weather" class="current-weather-icon">
+          <img src="/assets/images/cloudy2.png" alt="weather" class="current-weather-icon">
           <div>
             <span class="current-temp">18°C</span>
             <div class="temp-detail mb-2">
@@ -136,6 +136,21 @@
   import { Swiper, SwiperSlide } from "swiper/vue";
   import "swiper/swiper-bundle.css";
 
+  import { fetchWeather} from "~/services/WeatherService.js";
+
+  const weather = ref(null);
+
+  // const { data: weatherInfo } = await axios.get(`https://api.openweathermap.org/data/3.0/onecall?lat=33.44&lon=-94.04&exclude=hourly,daily&appid=${apiKey}`)
+  const getWeather = async () => {
+    try {
+      weather.value = await fetchWeather("Almaty");
+    } catch (error) {
+      console.error('Error fetching weather data:', error);
+    }
+  };
+
+
+  // Swiper configurations
   const weeklySwiper = ref(null);
   const citiesSwiper = ref(null);
 
@@ -145,19 +160,21 @@
   const onCitiesSwiper = (swiper) => {
     citiesSwiper.value = swiper;
   };
-
+  // Navigation for Weekly Forecast
   const goToNextWeeklySlide = () => {
     if(weeklySwiper.value) weeklySwiper.value.slideNext();
   };
   const goToPrevWeeklySlide = () => {
     if(weeklySwiper.value) weeklySwiper.value.slidePrev();
   };
-
+  // Navigation for Other Cities
   const goToNextCitiesSlide = () => {
     if(citiesSwiper.value) citiesSwiper.value.slideNext();
   };
   const goToPrevCitiesSlide = () => {
     if(citiesSwiper.value) citiesSwiper.value.slidePrev();
+    getWeather();
+    console.log(weather);
   };
 
 </script>
