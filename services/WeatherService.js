@@ -14,7 +14,7 @@ export const fetchCurrentWeather = async (city) => {
         return response.data;
     } catch(error) {
         console.error('Error fetching weather data:', error);
-        throw error;
+        return {}
     }
 };
 

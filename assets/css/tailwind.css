@@ -8,6 +8,19 @@
     src: url("/assets/fonts/Satoshi-Variable.ttf");
 }
 
+/* Loading page */
+.loading-page {
+    @apply w-full h-screen flex flex-col justify-center items-center;
+}
+.loading-page img {
+    width: 90px;
+    margin-bottom: 5px;
+}
+.loading-page span {
+    font-size: 17px;
+    font-weight: 500;
+}
+
 /* Background */
 .background-page {
     background: #f4f4f4;
@@ -291,6 +304,11 @@ header {
     font-weight: 600;
 }
 .weather-card img {
+    width: 125px;
+    object-fit: contain;
+    margin: 6px auto;
+}
+.weather-card.today img {
     width: 145px;
     object-fit: contain;
     margin: 0 auto 5px;
@@ -302,7 +320,7 @@ header {
 /* Other city card */
 .other-city-card {
     border-radius: 22px;
-    padding: 30px;
+    padding: 18px 30px;
 
     @apply w-fit flex items-center bg-white;
 }
@@ -312,6 +330,19 @@ header {
 .other-city-card ul li:first-child {
     font-size: 22px;
     font-weight: 500;
+}
+.other-city-location {
+    @apply flex flex-col;
+}
+.other-city-location span:first-child {
+    font-size: 22px;
+    line-height: 1.2;
+    font-weight: 500;
+}
+.other-city-location span:last-child {
+    font-size: 17.5px;
+    font-weight: 500;
+    opacity: .85;
 }
 .other-city-card ul li:last-child {
     font-size: 16.5px;

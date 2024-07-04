@@ -1,5 +1,9 @@
 <template>
-  <div class="background-page">
+  <div v-if="weeklyWeather === null || otherCitiesList.length === 0" class="loading-page">
+    <img src="/assets/images/loading.gif" alt="loading">
+    <span>Loading...</span>
+  </div>
+  <div v-else class="background-page">
     <header>
       <!-- Logotype -->
       <div class="logo">
@@ -20,8 +24,8 @@
           </span>
         </div>
         <ul class="search-result" :style="{ display: citiesList.length > 0 ? 'block' : 'none' }">
-          <li v-for="city in citiesList" @click="getWeather(city.name)">
-            {{city.name}} <Icon name="material-symbols-light:chevron-right-rounded" size="28px" />
+          <li v-for="city in citiesList" @click="getWeather(city)">
+            {{city}} <Icon name="material-symbols-light:chevron-right-rounded" size="28px" />
           </li>
         </ul>
       </div>
@@ -42,6 +46,7 @@
           <img v-if="weeklyWeather?.current.condition.code === 1000" src="/assets/images/sun.png" alt="weather" class="current-weather-icon">
           <img v-else-if="weeklyWeather?.current.condition.code === 1003 || weeklyWeather?.current.condition.code === 1006" src="/assets/images/cloudy2.png" alt="weather" class="current-weather-icon">
           <img v-else-if="weeklyWeather?.current.condition.code > 1006 && weeklyWeather?.current.condition.code < 1063" src="/assets/images/clouds2.png" alt="weather" class="current-weather-icon">
+          <img v-else-if="weeklyWeather?.current.condition.code === 1035 || weeklyWeather?.current.condition.code === 1147" src="/assets/images/cloud2.png" alt="weather" class="current-weather-icon">
           <img v-else-if="weeklyWeather?.current.condition.code === 1063 || weeklyWeather?.current.condition.code === 1072" src="/assets/images/rain2.png" alt="weather" class="current-weather-icon">
           <img v-else-if="weeklyWeather?.current.condition.code >= 1150 && weeklyWeather?.current.condition.code <= 1207" src="/assets/images/rain2.png" alt="weather" class="current-weather-icon">
           <img v-else-if="weeklyWeather?.current.condition.code >= 1240 && weeklyWeather?.current.condition.code <= 1246" src="/assets/images/rain2.png" alt="weather" class="current-weather-icon">
@@ -78,7 +83,7 @@
         <div class="weather-details">
           <span>Weather Details</span>
           <div class="detail-item mt-5">
-            <img src="/assets/images/cloud2.png" alt="cloud" style="width: 37px">
+            <img src="/assets/images/information.png" alt="cloud" style="width: 35px">
             <span class="detail-item-span">{{weeklyWeather?.current.condition.text}}</span>
           </div>
           <div class="detail-item mt-3">
@@ -94,7 +99,7 @@
       <!-- Right sight of the page -->
       <div class="weather-suggestions">
         <!-- Weekly forecast -->
-        <div class="suggestion-item mb-14">
+        <div class="suggestion-item mb-12">
           <!-- Title and navigation -->
           <div class="title_nav">
             <span>Weekly Forecast</span>
@@ -112,6 +117,7 @@
             :slides-per-view="'auto'"
             :space-between="20"
             :navigation="{ nextEl: '.weekly-nav-next', prevEl: '.weekly-nav-prev' }"
+            :loop="true"
             @swiper="onWeeklySwiper"
             class="mt-5"
           >
@@ -139,11 +145,12 @@
               :slides-per-view="'auto'"
               :space-between="20"
               :navigation="{ nextEl: '.cities-nav-next', prevEl: '.cities-nav-prev' }"
+              :loop="true"
               @swiper="onCitiesSwiper"
               class="mt-5"
           >
             <SwiperSlide v-for="ind in 10" :key="ind">
-              <OtherCityCard :index="ind - 1" />
+              <OtherCityCard :city="otherCitiesList[ind - 1]" :index="ind - 1" />
             </SwiperSlide>
           </Swiper>
         </div>
@@ -169,11 +176,11 @@
   import { debounce } from "lodash";
 
   const currentDate = ref(new Date())
-  const currentWeather = ref(null);
   const weeklyWeather = ref(null);
   const city = ref(null);
 
-  let citiesWeather = ref([]);
+  const citiesWeather = ref([]);
+  const otherCitiesList = ref([]);
 
   let citiesList = ref([]);
   const searchQuery = ref('');
@@ -190,6 +197,7 @@
     });
 
     await userLocation();
+    await getOtherCitiesWeather();
   });
 
   // Date configurations
@@ -223,10 +231,7 @@
   // Current weather
   const getWeather = async (city) => {
     try {
-      // currentWeather.value = await fetchCurrentWeather(city);
       weeklyWeather.value = await fetchWeeklyWeather(city);
-
-      citiesWeather = await randomCitiesList(weeklyWeather?.value.location.country, 10);
 
       searchQuery.value = '';
       citiesList = [];
@@ -236,30 +241,21 @@
     }
   };
 
-  // const getOtherCityWeather = async () => {
-  //   setTimeout(() => {
-  //     try {
-  //       // for(let i = 0; i < citiesWeather.length; i++) {
-  //       //   console.log(citiesWeather[i].name);
-  //       //   return await fetchCurrentWeather(citiesWeather[i].name);
-  //       // }
-  //       citiesWeather.forEach((city) => {
-  //         console.log(city.name);
-  //         return fetchCurrentWeather(city.name)
-  //       })
-  //     } catch (error) {
-  //       console.error('Error fetching weather data:', error);
-  //       return null;
-  //     }
-  //   }, 5000);
-  // };
+  // Other cities weather
+  const getOtherCitiesWeather = async () => {
+    citiesWeather.value = await randomCitiesList(10);
+    for(const city of citiesWeather.value) {
+      const cityWeather = await fetchCurrentWeather(city);
+      otherCitiesList.value.push(cityWeather);
+    }
+  }
 
   // Search
   const searchCities = debounce(() => {
-    const query = searchQuery.value.trim().toLowerCase().replace(/\b\w/g, match => match.toUpperCase());
+    // const query = searchQuery.value.trim().toLowerCase().replace(/\b\w/g, match => match.toUpperCase());
 
-    if(query.length >= 3) {
-      citiesList = search(query);
+    if(searchQuery.value.length >= 3) {
+      citiesList = search(searchQuery.value);
     } else {
       citiesList = [];
     }
