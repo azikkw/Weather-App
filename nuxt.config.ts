@@ -8,6 +8,14 @@ export default defineNuxtConfig({
     '@nuxt/icon',
     'nuxt-swiper'
   ],
+  app: {
+    head: {
+      title: "Weather Forecast",
+      link: [
+        { rel: 'icon', type: 'image/png', href: '/logo.png' }
+      ]
+    }
+  },
   css: [
     '~/assets/css/tailwind.css',
   ]

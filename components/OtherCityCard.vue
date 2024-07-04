@@ -9,13 +9,13 @@
       <li>{{city?.current.condition.text}}</li>
     </ul>
     <img v-if="city?.current.condition.code === 1000" src="/assets/images/sun.png" alt="weather" class="current-weather-icon" style="width: 80px">
-    <img v-else-if="city?.current.condition.code === 1003 || city?.current.condition.code === 1006" src="/assets/images/cloudy2.png" alt="weather" class="current-weather-icon">
-    <img v-else-if="city?.current.condition.code > 1006 && city?.current.condition.code < 1063" src="/assets/images/clouds2.png" alt="weather" class="current-weather-icon">
-    <img v-else-if="city?.current.condition.code === 1035 || city?.current.condition.code === 1147" src="/assets/images/cloud2.png" alt="weather" class="current-weather-icon">
-    <img v-else-if="city?.current.condition.code === 1063 || city?.current.condition.code === 1072" src="/assets/images/rain2.png" alt="weather" class="current-weather-icon">
-    <img v-else-if="city?.current.condition.code >= 1150 && city?.current.condition.code <= 1207" src="/assets/images/rain2.png" alt="weather" class="current-weather-icon">
-    <img v-else-if="city?.current.condition.code >= 1240 && city?.current.condition.code <= 1246" src="/assets/images/rain2.png" alt="weather" class="current-weather-icon">
-    <img v-else-if="city?.current.condition.code >= 1261 && city?.current.condition.code <= 1264" src="/assets/images/rain2.png" alt="weather" class="current-weather-icon">
+    <img v-else-if="city?.current.condition.code === 1003 || city?.current.condition.code === 1006" src="/assets/images/cloudy.png" alt="weather" class="current-weather-icon">
+    <img v-else-if="city?.current.condition.code > 1006 && city?.current.condition.code < 1063" src="/assets/images/clouds.png" alt="weather" class="current-weather-icon">
+    <img v-else-if="city?.current.condition.code === 1035 || city?.current.condition.code === 1147" src="/assets/images/cloud.png" alt="weather" class="current-weather-icon">
+    <img v-else-if="city?.current.condition.code === 1063 || city?.current.condition.code === 1072" src="/assets/images/rain.png" alt="weather" class="current-weather-icon">
+    <img v-else-if="city?.current.condition.code >= 1150 && city?.current.condition.code <= 1207" src="/assets/images/rain.png" alt="weather" class="current-weather-icon">
+    <img v-else-if="city?.current.condition.code >= 1240 && city?.current.condition.code <= 1246" src="/assets/images/rain.png" alt="weather" class="current-weather-icon">
+    <img v-else-if="city?.current.condition.code >= 1261 && city?.current.condition.code <= 1264" src="/assets/images/rain.png" alt="weather" class="current-weather-icon">
     <img v-else-if="city?.current.condition.code === 1066 || city?.current.condition.code === 1069 || city?.current.condition.code === 1114 || city?.current.condition.code === 1117" src="/assets/images/snow.png" alt="weather" class="current-weather-icon">
     <img v-else-if="city?.current.condition.code >= 1210 && city?.current.condition.code <= 1237" src="/assets/images/snow.png" alt="weather" class="current-weather-icon">
     <img v-else-if="city?.current.condition.code >= 1210 && city?.current.condition.code <= 1237" src="/assets/images/snow.png" alt="weather" class="current-weather-icon">

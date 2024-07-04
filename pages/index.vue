@@ -1,9 +1,9 @@
 <template>
-  <div v-if="weeklyWeather === null || otherCitiesList.length === 0" class="loading-page">
-    <img src="/assets/images/loading.gif" alt="loading">
-    <span>Loading...</span>
+  <div v-if="weeklyWeather === null || otherCitiesList.length === 0" :class="['loading-page', themeMode]">
+    <Icon class="loading-light" name="meteocons:sunrise-fill" size="75" />
+    <Icon class="loading-dark" name="meteocons:starry-night-fill" size="70" />
   </div>
-  <div v-else class="background-page">
+  <div v-else :class="['background-page', themeMode]">
     <header>
       <!-- Logotype -->
       <div class="logo">
@@ -29,6 +29,12 @@
           </li>
         </ul>
       </div>
+      <!-- Theme changer -->
+      <div class="change-theme">
+        <div class="light-theme" @click="changeThemeMode('light-mode')"><Icon name="ph:sun-dim-light" size="34px" /></div>
+        <div class="dark-theme" @click="changeThemeMode('dark-mode')"><Icon name="material-symbols-light:dark-mode-outline" size="30px" /></div>
+        <span class="active-theme"></span>
+      </div>
       <!-- Date -->
       <div class="today-date">
         <div class="font-bold">
@@ -44,13 +50,13 @@
         <!-- Current weather -->
         <div class="current-weather">
           <img v-if="weeklyWeather?.current.condition.code === 1000" src="/assets/images/sun.png" alt="weather" class="current-weather-icon">
-          <img v-else-if="weeklyWeather?.current.condition.code === 1003 || weeklyWeather?.current.condition.code === 1006" src="/assets/images/cloudy2.png" alt="weather" class="current-weather-icon">
-          <img v-else-if="weeklyWeather?.current.condition.code > 1006 && weeklyWeather?.current.condition.code < 1063" src="/assets/images/clouds2.png" alt="weather" class="current-weather-icon">
-          <img v-else-if="weeklyWeather?.current.condition.code === 1035 || weeklyWeather?.current.condition.code === 1147" src="/assets/images/cloud2.png" alt="weather" class="current-weather-icon">
-          <img v-else-if="weeklyWeather?.current.condition.code === 1063 || weeklyWeather?.current.condition.code === 1072" src="/assets/images/rain2.png" alt="weather" class="current-weather-icon">
-          <img v-else-if="weeklyWeather?.current.condition.code >= 1150 && weeklyWeather?.current.condition.code <= 1207" src="/assets/images/rain2.png" alt="weather" class="current-weather-icon">
-          <img v-else-if="weeklyWeather?.current.condition.code >= 1240 && weeklyWeather?.current.condition.code <= 1246" src="/assets/images/rain2.png" alt="weather" class="current-weather-icon">
-          <img v-else-if="weeklyWeather?.current.condition.code >= 1261 && weeklyWeather?.current.condition.code <= 1264" src="/assets/images/rain2.png" alt="weather" class="current-weather-icon">
+          <img v-else-if="weeklyWeather?.current.condition.code === 1003 || weeklyWeather?.current.condition.code === 1006" src="/assets/images/cloudy.png" alt="weather" class="current-weather-icon">
+          <img v-else-if="weeklyWeather?.current.condition.code > 1006 && weeklyWeather?.current.condition.code < 1063" src="/assets/images/clouds.png" alt="weather" class="current-weather-icon">
+          <img v-else-if="weeklyWeather?.current.condition.code === 1035 || weeklyWeather?.current.condition.code === 1147" src="/assets/images/cloud.png" alt="weather" class="current-weather-icon">
+          <img v-else-if="weeklyWeather?.current.condition.code === 1063 || weeklyWeather?.current.condition.code === 1072" src="/assets/images/rain.png" alt="weather" class="current-weather-icon">
+          <img v-else-if="weeklyWeather?.current.condition.code >= 1150 && weeklyWeather?.current.condition.code <= 1207" src="/assets/images/rain.png" alt="weather" class="current-weather-icon">
+          <img v-else-if="weeklyWeather?.current.condition.code >= 1240 && weeklyWeather?.current.condition.code <= 1246" src="/assets/images/rain.png" alt="weather" class="current-weather-icon">
+          <img v-else-if="weeklyWeather?.current.condition.code >= 1261 && weeklyWeather?.current.condition.code <= 1264" src="/assets/images/rain.png" alt="weather" class="current-weather-icon">
           <img v-else-if="weeklyWeather?.current.condition.code === 1066 || weeklyWeather?.current.condition.code === 1069 || weeklyWeather?.current.condition.code === 1114 || weeklyWeather?.current.condition.code === 1117" src="/assets/images/snow.png" alt="weather" class="current-weather-icon">
           <img v-else-if="weeklyWeather?.current.condition.code >= 1210 && weeklyWeather?.current.condition.code <= 1237" src="/assets/images/snow.png" alt="weather" class="current-weather-icon">
           <img v-else-if="weeklyWeather?.current.condition.code >= 1210 && weeklyWeather?.current.condition.code <= 1237" src="/assets/images/snow.png" alt="weather" class="current-weather-icon">
@@ -164,9 +170,9 @@
   import { onMounted, onUnmounted, ref } from 'vue'
   import { format } from 'date-fns'
 
+  import SwiperCore from "swiper";
   import { Swiper, SwiperSlide } from "swiper/vue";
   import { Navigation, Pagination } from "swiper/modules";
-  import SwiperCore from "swiper";
   import "swiper/swiper-bundle.css";
 
   import { fetchCurrentWeather, fetchWeeklyWeather } from "~/services/WeatherService.js";
@@ -185,9 +191,12 @@
   let citiesList = ref([]);
   const searchQuery = ref('');
 
+  const themeMode = ref(null);
+
   SwiperCore.use([Navigation, Pagination]);
 
   onMounted(async () => {
+    // Update current date
     const interval = setInterval(() => {
       currentDate.value = new Date()
     }, 1000);
@@ -196,9 +205,21 @@
       clearInterval(interval)
     });
 
+    if(localStorage.getItem('themeMode') !== null) {
+      themeMode.value = localStorage.getItem('themeMode');
+    } else localStorage.setItem('themeMode', 'light-mode');
+
     await userLocation();
     await getOtherCitiesWeather();
   });
+
+  // Theme changer
+  const changeThemeMode = (mode) => {
+    if(mode === "dark-mode") themeMode.value = mode;
+    else themeMode.value = mode;
+
+    localStorage.setItem('themeMode', mode);
+  }
 
   // Date configurations
   const formattedDate = computed(() => {
@@ -252,8 +273,6 @@
 
   // Search
   const searchCities = debounce(() => {
-    // const query = searchQuery.value.trim().toLowerCase().replace(/\b\w/g, match => match.toUpperCase());
-
     if(searchQuery.value.length >= 3) {
       citiesList = search(searchQuery.value);
     } else {

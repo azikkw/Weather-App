@@ -1,6 +1,6 @@
-// import citiesData from '~/assets/data/cities.json';
-import citiesData from '~/assets/data/countries.json';
+import citiesData from 'assets/data/cities.json';
 
+// Search cities function
 export const search = (query) => {
     query = query.trim().toLowerCase();
     const matchedCities = [];
@@ -11,9 +11,9 @@ export const search = (query) => {
         matchedCities.push(...filteredCities);
     }
     return matchedCities;
-    // return citiesData.filter(city => city.name.match(query));
 }
 
+// Get 10 random city for Other Cities Weather section
 export const randomCitiesList = async (count) => {
     const allCities = [];
     for(const country in citiesData) {

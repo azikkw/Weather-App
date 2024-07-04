@@ -12,13 +12,24 @@
 .loading-page {
     @apply w-full h-screen flex flex-col justify-center items-center;
 }
-.loading-page img {
-    width: 90px;
-    margin-bottom: 5px;
+.loading-page.dark-mode {
+    background: #282f3e;
+    color: #dcdcdc;
 }
-.loading-page span {
-    font-size: 17px;
-    font-weight: 500;
+.loading-page .iconify {
+    display: none;
+}
+.loading-page.light-mode .loading-light {
+    display: block;
+}
+.loading-page.light-mode .loading-dark {
+    display: none;
+}
+.loading-page.dark-mode .loading-light {
+    display: none;
+}
+.loading-page.dark-mode .loading-dark {
+    display: block;
 }
 
 /* Background */
@@ -26,11 +37,21 @@
     background: #f4f4f4;
     @apply w-full h-screen font-satoshi font-normal;
 }
+/* Dark mode options */
+.background-page.dark-mode {
+    background: #161B27;
+    color: white;
+}
 
 /* Header */
 header {
     height: 110px;
     @apply w-full bg-white pr-9 flex items-center justify-between;
+}
+/* Dark mode options */
+.background-page.dark-mode header {
+    background: #1D222D;
+    color: white;
 }
 
 /* Logotype */
@@ -61,7 +82,7 @@ header {
 /* Search */
 .search {
     width: 400px;
-    margin-right: 90px;
+    margin-right: 20px;
     position: relative;
 }
 .search input {
@@ -70,7 +91,7 @@ header {
 
     border-radius: 24px;
     border: 1px solid #d6d6d6;
-    background: #fbfbfb;
+    background: transparent;
 
     padding: 0 66px;
     margin: 30px 0;
@@ -102,6 +123,11 @@ header {
     max-height: 290px;
     overflow-y: auto;
 }
+/* Dark mode options */
+.background-page.dark-mode .search-result {
+    background: #252b39;
+    border-color: rgba(255, 255, 255, 0.18);
+}
 .search-result::-webkit-scrollbar {
     width: 5px;
 }
@@ -114,6 +140,9 @@ header {
     background: #d3d3d3;
     border-radius: 3px;
 }
+.background-page.dark-mode .search-result::-webkit-scrollbar-thumb {
+    background: #4f5a71;
+}
 .search-result li {
     height: 40px;
     /*background: red;*/
@@ -124,6 +153,9 @@ header {
     padding-left: 5px;
     cursor: pointer;
 }
+.background-page.dark-mode .search-result li {
+    border-bottom-color: rgba(255, 255, 255, 0.18);
+}
 .search-result li:last-child {
     border-bottom: none;
 }
@@ -133,6 +165,52 @@ header {
 }
 .search-result li:hover {
     border-color: #b3b3b3;
+}
+
+/* Theme changer */
+.change-theme {
+    @apply flex justify-between items-center relative;
+    /*width: 100px;*/
+    height: 48px;
+    background: #f1f1f1;
+    border-radius: 24px;
+}
+/* Dark mode options */
+.background-page.dark-mode .change-theme {
+    background: #2e3849;
+}
+.active-theme {
+    @apply absolute left-0 top-1/2 -translate-y-1/2 z-0 bg-blue-500 rounded-3xl;
+    height: 48px;
+    width: 48px;
+    transition: .7s;
+}
+/* Dark mode options */
+.background-page.dark-mode .active-theme {
+    transform: translate(48px, -50%);
+}
+.light-theme,
+.dark-theme {
+    @apply flex justify-center items-center cursor-pointer;
+    height: 48px;
+    width: 48px;
+    z-index: 1;
+}
+.light-theme {
+    color: white;
+    transition: 1.2s;
+}
+.dark-theme {
+    transition: .5s;
+}
+.light-theme:hover {
+    transform: rotateZ(180deg);
+}
+.dark-theme:hover {
+    transform: rotateZ(-30deg);
+}
+.change-theme .iconify {
+    pointer-events: none;
 }
 
 /* Today's date on header */
@@ -162,6 +240,11 @@ header {
     background: #ffffff;
     /*border-color: #f1f1f1;*/
 }
+/* Dark mode options */
+.background-page.dark-mode .current-weather-back {
+    background: #1D222D;
+    color: white;
+}
 .current-weather-back::-webkit-scrollbar {
     width: 5px;
 }
@@ -173,6 +256,10 @@ header {
 {
     background: #d3d3d3;
     border-radius: 3px;
+}
+/* Dark mode options */
+.background-page.dark-mode .current-weather-back::-webkit-scrollbar-thumb {
+    background: #4f5a71;
 }
 
 /* Current weather */
@@ -229,6 +316,10 @@ header {
     background: #e9f3fd;
     @apply w-full flex items-center px-6 gap-4 rounded-xl;
 }
+/* Dark mode options */
+.background-page.dark-mode .detail-item {
+    background: #282f3e;
+}
 .detail-item img {
     width: 35px;
 }
@@ -270,6 +361,11 @@ header {
 }
 .swiper-navigation button:nth-child(2) .iconify {
     transform: rotate(45deg);
+}
+/* Dark mode options */
+.background-page.dark-mode .weekly-nav-prev,
+.background-page.dark-mode .cities-nav-prev {
+    border-color: white;
 }
 
 /* Swiper */
@@ -358,4 +454,10 @@ header {
 .other-city-card span {
     font-size: 42px;
     font-weight: 900;
+}
+
+/* Dark mode options */
+.background-page.dark-mode .weather-card,
+.background-page.dark-mode .other-city-card {
+    background: #252b39;
 }
