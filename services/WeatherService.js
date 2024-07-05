@@ -3,21 +3,6 @@ import axios from 'axios';
 const API_KEY = "9235007df384403881e80548240307";
 const BASE_URL = 'https://api.weatherapi.com/v1';
 
-export const fetchCurrentWeather = async (city) => {
-    try {
-        const response = await axios.get(`${BASE_URL}/current.json`, {
-            params: {
-                key: API_KEY,
-                q: city
-            },
-        });
-        return response.data;
-    } catch(error) {
-        console.error('Error fetching weather data:', error);
-        return {}
-    }
-};
-
 export const fetchWeeklyWeather = async (city) => {
     try {
         const response = await axios.get(`${BASE_URL}/forecast.json`, {

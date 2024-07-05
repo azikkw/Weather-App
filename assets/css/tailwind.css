@@ -274,6 +274,7 @@ header {
 .current-temp {
     font-size: 50px;
     font-weight: 900;
+    @apply flex flex-col;
 }
 
 /* Curr weather temperature details */
@@ -285,6 +286,11 @@ header {
 }
 .temp-detail span {
     @apply font-medium opacity-80;
+}
+
+/* Divider */
+.background-page.dark-mode hr {
+    opacity: .25;
 }
 
 /* Current date */
@@ -329,7 +335,23 @@ header {
 
 /* Right sight, weather suggestions */
 .weather-suggestions {
-    @apply w-[calc(100%-390px)] pl-10 pt-12;
+    @apply w-[calc(100%-390px)] pl-10 py-12 flex flex-col justify-between overflow-y-auto;
+}
+.weather-suggestions::-webkit-scrollbar {
+    width: 7px;
+}
+.weather-suggestions::-webkit-scrollbar-track
+{
+    background: transparent;
+}
+.weather-suggestions::-webkit-scrollbar-thumb
+{
+    background: #b1b1b1;
+    border-radius: 4px;
+}
+/* Dark mode options */
+.background-page.dark-mode .weather-suggestions::-webkit-scrollbar-thumb {
+    background: #4f5a71;
 }
 .suggestion-item {
     @apply w-full;
@@ -347,13 +369,18 @@ header {
 }
 .weekly-nav-prev,
 .weekly-nav-next,
-.cities-nav-prev,
-.cities-nav-next {
+.additions-nav-prev,
+.additions-nav-next {
     width: 34px;
     height: 34px;
     transition: .2s;
 
     @apply rounded-3xl flex justify-center items-center;
+}
+/* Dark mode options */
+.background-page.dark-mode .weekly-nav-prev,
+.background-page.dark-mode .additions-nav-prev {
+    border-color: white;
 }
 .swiper-navigation button .iconify {
     transform: rotate(225deg);
@@ -362,19 +389,20 @@ header {
 .swiper-navigation button:nth-child(2) .iconify {
     transform: rotate(45deg);
 }
-/* Dark mode options */
-.background-page.dark-mode .weekly-nav-prev,
-.background-page.dark-mode .cities-nav-prev {
-    border-color: white;
-}
 
 /* Swiper */
 .swiper {
     width: 100%;
 }
+.forecast-swiper {
+    margin-bottom: 50px;
+}
+.swiper-wrapper {
+    padding-top: 20px;
+    align-items: end;
+}
 .swiper-slide {
-    width: fit-content !important;
-    height: fit-content !important;
+    @apply !w-fit !h-fit;
 }
 .swiper-slide:last-child {
     margin-right: 40px;
@@ -385,15 +413,20 @@ header {
     width: 160px;
     height: 185px;
 
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-
-    background: white;
-    box-sizing: content-box;
     border-radius: 22px;
-
     padding: 20px 25px;
+
+    transition: transform .3s;
+
+    @apply flex flex-col justify-between bg-white box-content cursor-pointer;
+}
+/* Dark mode options */
+.background-page.dark-mode .weather-card {
+    background: #252b39;
+}
+.weather-card:hover,
+.background-page.dark-mode .weather-card:hover {
+    transform: translateY(-8px);
 }
 .weather-card > span:first-child {
     font-size: 18px;
@@ -413,51 +446,61 @@ header {
     font-size: 22px;
 }
 
-/* Other city card */
-.other-city-card {
-    border-radius: 22px;
-    padding: 18px 30px;
+.additional-details {
+    @apply flex items-end gap-5
+}
 
-    @apply w-fit flex items-center bg-white;
+/* Sunrise & Sunset */
+.sun-rise-set-back {
+    @apply w-fit flex items-center bg-white font-medium;
+
+    height: 120px;
+
+    border-radius: 22px;
+
+    gap: 70px;
+    padding: 0 35px;
 }
-.other-city-card ul {
-    margin-right: 50px;
+.rise-set-detail {
+    @apply flex items-center;
+    gap: 15px;
 }
-.other-city-card ul li:first-child {
-    font-size: 22px;
-    font-weight: 500;
+.rise-set-detail-text {
+    @apply flex flex-col;
+
+    margin-top: 8px;
+    gap: 2px;
 }
-.other-city-location {
+.rise-set-detail-text span:last-child {
+    font-size: 17px;
+}
+.rise-set-detail img {
+    width: 55px;
+    object-fit: contain;
+}
+
+/* Additional detail */
+.add-detail {
+    @apply w-fit flex bg-white gap-2.5 font-medium;
+
+    height: 120px;
+    padding: 20px 15px 20px 25px;
+    border-radius: 22px;
+}
+.add-detail-text {
     @apply flex flex-col;
 }
-.other-city-location span:first-child {
+.add-detail-text span:last-child {
     font-size: 22px;
-    line-height: 1.2;
-    font-weight: 500;
+    font-weight: 600;
 }
-.other-city-location span:last-child {
-    font-size: 17.5px;
-    font-weight: 500;
-    opacity: .85;
-}
-.other-city-card ul li:last-child {
-    font-size: 16.5px;
-    font-weight: 500;
-    opacity: .7;
-}
-.other-city-card img {
-    width: 85px;
+.add-detail img {
+    width: 60px;
     object-fit: contain;
-
-    margin-right: 18px;
-}
-.other-city-card span {
-    font-size: 42px;
-    font-weight: 900;
+    margin-bottom: -30px;
 }
 
-/* Dark mode options */
-.background-page.dark-mode .weather-card,
-.background-page.dark-mode .other-city-card {
+.background-page.dark-mode .sun-rise-set-back,
+.background-page.dark-mode .add-detail {
     background: #252b39;
 }

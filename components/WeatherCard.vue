@@ -1,9 +1,9 @@
 <template>
   <!-- Today's weather card -->
-  <div v-if="index === 0" class="weather-card today !w-fit block">
+  <div v-if="index === 0" class="weather-card today !w-fit block" @click="selectForecast">
     <span>Today</span>
     <div class="flex gap-7">
-      <img v-if="weather?.day.condition.code === 1000" src="/assets/images/sun.png" alt="weather" class="current-weather-icon"style="width: 140px">
+      <img v-if="weather?.day.condition.code === 1000" src="/assets/images/sun.png" alt="weather" class="current-weather-icon" style="width: 140px">
       <img v-else-if="weather?.day.condition.code === 1003 || weather?.day.condition.code === 1006" src="/assets/images/cloudy.png" alt="weather" class="current-weather-icon">
       <img v-else-if="weather?.day.condition.code > 1006 && weather?.day.condition.code < 1063" src="/assets/images/clouds.png" alt="weather" class="current-weather-icon">
       <img v-else-if="weather?.day.condition.code === 1035 || weather?.day.condition.code === 1147" src="/assets/images/cloud.png" alt="weather" class="current-weather-icon">
@@ -30,7 +30,7 @@
     </div>
   </div>
   <!-- Weekly weather cards -->
-  <div v-else class="weather-card">
+  <div v-else class="weather-card" @click="selectForecast">
     <span>{{weatherDate(weather?.date_epoch)}}</span>
     <img v-if="weather?.day.condition.code === 1000" src="/assets/images/sun.png" alt="weather" class="current-weather-icon" style="width: 120px">
     <img v-else-if="weather?.day.condition.code === 1003 || weather?.day.condition.code === 1006" src="/assets/images/cloudy.png" alt="weather" class="current-weather-icon">
@@ -56,9 +56,21 @@
 
 <script setup>
 
-  import {format} from "date-fns";
+  import { format } from "date-fns";
+  import { defineEmits } from 'vue';
 
   const { weather, index } = defineProps(['weather', 'index'])
+  const emit = defineEmits(['selectedForecast']);
+
+  // Selected forecast weather info
+  const selectForecast = () => {
+    const weatherInfo = {
+      forecastDate: sendForecastDate(weather?.date_epoch),
+      forecastDayOfWeek: sendForecastDayOfWeek(weather?.date_epoch),
+      index: index
+    }
+    emit('selectedForecast', weatherInfo);
+  };
 
   // Date configuration
   const weatherDate = (date) => {
@@ -69,6 +81,20 @@
   };
   const dayOfWeek = (date) => {
     return format(date, 'EEEE').slice(0, 3)
+  };
+
+  const sendForecastDate = (date) => {
+    if(date !== undefined) {
+      const newDate = new Date(date * 1000);
+      return format(newDate, 'dd') + " " + newDate.toLocaleDateString('en-US', {
+        month: 'long',
+        year: 'numeric'
+      }).replace(',', ' ')
+    }
+  }
+  const sendForecastDayOfWeek = (date) => {
+    const newDate = new Date(date * 1000);
+    return format(newDate, 'EEEE')
   };
 
 </script>
