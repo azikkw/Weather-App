@@ -13,6 +13,9 @@ export default {
       fontFamily: {
         satoshi: ['Satoshi', 'sans-serif'],
       },
+      colors: {
+        'background-color': '#f4f4f4'
+      }
     },
   },
   plugins: [],

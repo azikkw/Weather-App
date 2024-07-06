@@ -1,18 +1,18 @@
 <template>
   <div v-if="weeklyWeather === null" :class="['loading-page', themeMode]">
-    <Icon class="loading-light" name="meteocons:clear-day-fill" size="70" />
-    <Icon class="loading-dark" name="meteocons:starry-night-fill" size="70" />
+    <Icon name="meteocons:compass-fill" size="70" />
+    Defining your geolocation...
   </div>
   <div v-else :class="['background-page', themeMode]">
     <header>
       <!-- Logotype -->
       <div class="logo">
-        <img src="/assets/images/weather-app.png" alt="logo">
+        <NuxtImg preload src="/weather-app.png" alt="logo" />
         <span class="font-bold">Weather</span>
       </div>
       <!-- Current location -->
       <div class="current-location">
-        <Icon name="ci:location" size="28px"/>
+        <Icon class="text-blue-500" name="ci:location" size="28px"/>
         <span class="font-bold">{{ weeklyWeather?.location.name }}</span>
       </div>
       <!-- Search -->
@@ -25,7 +25,7 @@
         </div>
         <ul class="search-result" :style="{ display: citiesList.length > 0 ? 'block' : 'none' }">
           <li v-for="city in citiesList" @click="getWeather(city)">
-            {{city}} <Icon name="material-symbols-light:chevron-right-rounded" size="28px" />
+            {{city}} <Icon class="-mr-2 opacity-80" name="material-symbols-light:chevron-right-rounded" size="28px" />
           </li>
         </ul>
       </div>
@@ -49,59 +49,59 @@
       <div class="current-weather-back">
         <!-- For current weather -->
         <div v-if="currentWeather?.day === undefined" class="current-weather">
-          <img v-if="currentWeather?.condition.code === 1000" src="/assets/images/sun.png" alt="weather" class="current-weather-icon">
-          <img v-else-if="currentWeather?.condition.code === 1003 || currentWeather?.condition.code === 1006" src="/assets/images/cloudy.png" alt="weather" class="current-weather-icon">
-          <img v-else-if="currentWeather?.condition.code > 1006 && currentWeather?.condition.code < 1063" src="/assets/images/clouds.png" alt="weather" class="current-weather-icon">
-          <img v-else-if="currentWeather?.condition.code === 1035 || currentWeather?.condition.code === 1147" src="/assets/images/cloud.png" alt="weather" class="current-weather-icon">
-          <img v-else-if="currentWeather?.condition.code === 1063 || currentWeather?.condition.code === 1072" src="/assets/images/rain.png" alt="weather" class="current-weather-icon">
-          <img v-else-if="currentWeather?.condition.code >= 1150 && currentWeather?.condition.code <= 1207" src="/assets/images/rain.png" alt="weather" class="current-weather-icon">
-          <img v-else-if="currentWeather?.condition.code >= 1240 && currentWeather?.condition.code <= 1246" src="/assets/images/rain.png" alt="weather" class="current-weather-icon">
-          <img v-else-if="currentWeather?.condition.code >= 1261 && currentWeather?.condition.code <= 1264" src="/assets/images/rain.png" alt="weather" class="current-weather-icon">
-          <img v-else-if="currentWeather?.condition.code === 1066 || currentWeather?.condition.code === 1069 || currentWeather?.condition.code === 1114 || currentWeather?.condition.code === 1117" src="/assets/images/snow.png" alt="weather" class="current-weather-icon">
-          <img v-else-if="currentWeather?.condition.code >= 1210 && currentWeather?.condition.code <= 1237" src="/assets/images/snow.png" alt="weather" class="current-weather-icon">
-          <img v-else-if="currentWeather?.condition.code >= 1210 && currentWeather?.condition.code <= 1237" src="/assets/images/snow.png" alt="weather" class="current-weather-icon">
-          <img v-else-if="currentWeather?.condition.code >= 1252 && currentWeather?.condition.code <= 1258" src="/assets/images/snow.png" alt="weather" class="current-weather-icon">
-          <img v-else-if="currentWeather?.condition.code >= 1279 && currentWeather?.condition.code <= 1282" src="/assets/images/snow.png" alt="weather" class="current-weather-icon">
-          <img v-else-if="currentWeather?.condition.code === 1087 || currentWeather?.condition.code === 1273 || currentWeather?.condition.code === 1276" src="/assets/images/thunder.png" alt="weather" class="current-weather-icon">
+          <NuxtImg preload v-if="currentWeather?.condition.code === 1000" src="/sun.png" alt="weather" class="current-weather-icon" />
+          <NuxtImg preload v-else-if="currentWeather?.condition.code === 1003 || currentWeather?.condition.code === 1006" src="/cloudy.png" alt="weather" class="current-weather-icon" />
+          <NuxtImg preload v-else-if="currentWeather?.condition.code > 1006 && currentWeather?.condition.code < 1063" src="/clouds.png" alt="weather" class="current-weather-icon" />
+          <NuxtImg preload v-else-if="currentWeather?.condition.code === 1035 || currentWeather?.condition.code === 1147" src="/cloud.png" alt="weather" class="current-weather-icon" />
+          <NuxtImg preload v-else-if="currentWeather?.condition.code === 1063 || currentWeather?.condition.code === 1072" src="/rain.png" alt="weather" class="current-weather-icon" />
+          <NuxtImg preload v-else-if="currentWeather?.condition.code >= 1150 && currentWeather?.condition.code <= 1207" src="/rain.png" alt="weather" class="current-weather-icon" />
+          <NuxtImg preload v-else-if="currentWeather?.condition.code >= 1240 && currentWeather?.condition.code <= 1246" src="/rain.png" alt="weather" class="current-weather-icon" />
+          <NuxtImg preload v-else-if="currentWeather?.condition.code >= 1261 && currentWeather?.condition.code <= 1264" src="/rain.png" alt="weather" class="current-weather-icon" />
+          <NuxtImg preload v-else-if="currentWeather?.condition.code === 1066 || currentWeather?.condition.code === 1069 || currentWeather?.condition.code === 1114 || currentWeather?.condition.code === 1117" src="/snow.png" alt="weather" class="current-weather-icon" />
+          <NuxtImg preload v-else-if="currentWeather?.condition.code >= 1210 && currentWeather?.condition.code <= 1237" src="/snow.png" alt="weather" class="current-weather-icon" />
+          <NuxtImg preload v-else-if="currentWeather?.condition.code >= 1210 && currentWeather?.condition.code <= 1237" src="/snow.png" alt="weather" class="current-weather-icon" />
+          <NuxtImg preload v-else-if="currentWeather?.condition.code >= 1252 && currentWeather?.condition.code <= 1258" src="/snow.png" alt="weather" class="current-weather-icon" />
+          <NuxtImg preload v-else-if="currentWeather?.condition.code >= 1279 && currentWeather?.condition.code <= 1282" src="/snow.png" alt="weather" class="current-weather-icon" />
+          <NuxtImg preload v-else-if="currentWeather?.condition.code === 1087 || currentWeather?.condition.code === 1273 || currentWeather?.condition.code === 1276" src="/thunder.png" alt="weather" class="current-weather-icon" />
           <div>
             <span class="current-temp">{{Math.round(currentWeather?.temp_c)}}°C</span>
             <div class="temp-detail mb-2">
-              <img src="/assets/images/high-temp.png" alt="h-temp">
+              <NuxtImg preload src="/high-temp.png" alt="h-temp" />
               <span>H: {{Math.round(weeklyWeather?.forecast.forecastday[0].day.maxtemp_c)}}°C</span>
             </div>
             <div class="temp-detail">
-              <img src="/assets/images/low-temp.png" alt="l-temp">
+              <NuxtImg preload src="/low-temp.png" alt="l-temp" />
               <span>L: {{Math.round(weeklyWeather?.forecast.forecastday[0].day.mintemp_c)}}°C</span>
             </div>
           </div>
         </div>
         <!-- For forecast weather -->
         <div v-else class="current-weather">
-          <img v-if="currentWeather?.day.condition.code === 1000" src="/assets/images/sun.png" alt="weather" class="current-weather-icon">
-          <img v-else-if="currentWeather?.day.condition.code === 1003 || currentWeather?.day.condition.code === 1006" src="/assets/images/cloudy.png" alt="weather" class="current-weather-icon">
-          <img v-else-if="currentWeather?.day.condition.code > 1006 && currentWeather?.day.condition.code < 1063" src="/assets/images/clouds.png" alt="weather" class="current-weather-icon">
-          <img v-else-if="currentWeather?.day.condition.code === 1035 || currentWeather?.day.condition.code === 1147" src="/assets/images/cloud.png" alt="weather" class="current-weather-icon">
-          <img v-else-if="currentWeather?.day.condition.code === 1063 || currentWeather?.day.condition.code === 1072" src="/assets/images/rain.png" alt="weather" class="current-weather-icon">
-          <img v-else-if="currentWeather?.day.condition.code >= 1150 && currentWeather?.day.condition.code <= 1207" src="/assets/images/rain.png" alt="weather" class="current-weather-icon">
-          <img v-else-if="currentWeather?.day.condition.code >= 1240 && currentWeather?.day.condition.code <= 1246" src="/assets/images/rain.png" alt="weather" class="current-weather-icon">
-          <img v-else-if="currentWeather?.day.condition.code >= 1261 && currentWeather?.day.condition.code <= 1264" src="/assets/images/rain.png" alt="weather" class="current-weather-icon">
-          <img v-else-if="currentWeather?.day.condition.code === 1066 || currentWeather?.day.condition.code === 1069 || currentWeather?.day.condition.code === 1114 || currentWeather?.day.condition.code === 1117" src="/assets/images/snow.png" alt="weather" class="current-weather-icon">
-          <img v-else-if="currentWeather?.day.condition.code >= 1210 && currentWeather?.day.condition.code <= 1237" src="/assets/images/snow.png" alt="weather" class="current-weather-icon">
-          <img v-else-if="currentWeather?.day.condition.code >= 1210 && currentWeather?.day.condition.code <= 1237" src="/assets/images/snow.png" alt="weather" class="current-weather-icon">
-          <img v-else-if="currentWeather?.day.condition.code >= 1252 && currentWeather?.day.condition.code <= 1258" src="/assets/images/snow.png" alt="weather" class="current-weather-icon">
-          <img v-else-if="currentWeather?.day.condition.code >= 1279 && currentWeather?.day.condition.code <= 1282" src="/assets/images/snow.png" alt="weather" class="current-weather-icon">
-          <img v-else-if="currentWeather?.day.condition.code === 1087 || currentWeather?.day.condition.code === 1273 || currentWeather?.condition.code === 1276" src="/assets/images/thunder.png" alt="weather" class="current-weather-icon">
+          <NuxtImg preload v-if="currentWeather?.day.condition.code === 1000" src="/sun.png" alt="weather" class="current-weather-icon" />
+          <NuxtImg preload v-else-if="currentWeather?.day.condition.code === 1003 || currentWeather?.day.condition.code === 1006" src="/cloudy.png" alt="weather" class="current-weather-icon" />
+          <NuxtImg preload v-else-if="currentWeather?.day.condition.code > 1006 && currentWeather?.day.condition.code < 1063" src="/clouds.png" alt="weather" class="current-weather-icon" />
+          <NuxtImg preload v-else-if="currentWeather?.day.condition.code === 1035 || currentWeather?.day.condition.code === 1147" src="/cloud.png" alt="weather" class="current-weather-icon" />
+          <NuxtImg preload v-else-if="currentWeather?.day.condition.code === 1063 || currentWeather?.day.condition.code === 1072" src="/rain.png" alt="weather" class="current-weather-icon" />
+          <NuxtImg preload v-else-if="currentWeather?.day.condition.code >= 1150 && currentWeather?.day.condition.code <= 1207" src="/rain.png" alt="weather" class="current-weather-icon" />
+          <NuxtImg preload v-else-if="currentWeather?.day.condition.code >= 1240 && currentWeather?.day.condition.code <= 1246" src="/rain.png" alt="weather" class="current-weather-icon" />
+          <NuxtImg preload v-else-if="currentWeather?.day.condition.code >= 1261 && currentWeather?.day.condition.code <= 1264" src="/rain.png" alt="weather" class="current-weather-icon" />
+          <NuxtImg preload v-else-if="currentWeather?.day.condition.code === 1066 || currentWeather?.day.condition.code === 1069 || currentWeather?.day.condition.code === 1114 || currentWeather?.day.condition.code === 1117" src="/snow.png" alt="weather" class="current-weather-icon" />
+          <NuxtImg preload v-else-if="currentWeather?.day.condition.code >= 1210 && currentWeather?.day.condition.code <= 1237" src="/snow.png" alt="weather" class="current-weather-icon" />
+          <NuxtImg preload v-else-if="currentWeather?.day.condition.code >= 1210 && currentWeather?.day.condition.code <= 1237" src="/snow.png" alt="weather" class="current-weather-icon" />
+          <NuxtImg preload v-else-if="currentWeather?.day.condition.code >= 1252 && currentWeather?.day.condition.code <= 1258" src="/snow.png" alt="weather" class="current-weather-icon" />
+          <NuxtImg preload v-else-if="currentWeather?.day.condition.code >= 1279 && currentWeather?.day.condition.code <= 1282" src="/snow.png" alt="weather" class="current-weather-icon" />
+          <NuxtImg preload v-else-if="currentWeather?.day.condition.code === 1087 || currentWeather?.day.condition.code === 1273 || currentWeather?.condition.code === 1276" src="/thunder.png" alt="weather" class="current-weather-icon" />
           <div>
             <span class="current-temp">
               <span class="text-lg font-medium -mb-3 opacity-70">Avg:</span>
               {{Math.round(currentWeather?.day.avgtemp_c)}}°C
             </span>
             <div class="temp-detail mb-2">
-              <img src="/assets/images/high-temp.png" alt="h-temp">
+              <NuxtImg preload src="/high-temp.png" alt="h-temp" />
               <span>H: {{Math.round(currentWeather?.day.maxtemp_c)}}°C</span>
             </div>
             <div class="temp-detail">
-              <img src="/assets/images/low-temp.png" alt="l-temp">
+              <NuxtImg preload src="/low-temp.png" alt="l-temp" />
               <span>L: {{Math.round(currentWeather?.day.mintemp_c)}}°C</span>
             </div>
           </div>
@@ -120,15 +120,15 @@
         <div class="weather-details">
           <span>Weather Details</span>
           <div class="detail-item mt-5">
-            <img src="/assets/images/information.png" alt="cloud" style="width: 35px">
+            <NuxtImg preload src="/information.png" alt="cloud" style="width: 35px" />
             <span class="detail-item-span">{{currentWeather?.day === undefined ? currentWeather?.condition.text : currentWeather?.day?.condition?.text}}</span>
           </div>
           <div class="detail-item mt-3">
-            <img src="/assets/images/humidity.png" alt="humidity">
+            <NuxtImg preload src="/humidity.png" alt="humidity" />
             <span class="detail-item-span">Humidity - {{currentWeather?.day === undefined ? currentWeather?.humidity : currentWeather?.day?.avghumidity}}%</span>
           </div>
           <div class="detail-item mt-3">
-            <img src="/assets/images/wind.png" alt="wind">
+            <NuxtImg preload src="/wind.png" alt="wind" />
             <span class="detail-item-span">Wind - {{currentWeather?.day === undefined ? Math.round(currentWeather?.wind_kph) : Math.round(currentWeather?.day?.maxwind_kph)}}km/h</span>
           </div>
         </div>
@@ -139,12 +139,12 @@
         <div class="suggestion-item">
           <!-- Title and navigation -->
           <div class="title_nav">
-            <span>Weekly Forecast</span>
+            Weekly Forecast
             <div class="swiper-navigation">
-              <button class="weekly-nav-prev border border-black hover:opacity-70">
+              <button class="weekly-nav-prev border border-black hover:opacity-70" aria-label="Weekly Prev Btn">
                 <Icon name="prime:arrow-up-right" size="21" class="opacity-85" />
               </button>
-              <button class="weekly-nav-next bg-blue-500 hover:bg-blue-400">
+              <button class="weekly-nav-next bg-blue-500 hover:bg-blue-400" aria-label="Weekly Next Btn">
                 <Icon name="prime:arrow-up-right" size="21" class="text-white" />
               </button>
             </div>
@@ -167,12 +167,12 @@
         <div class="suggestion-item">
           <!-- Title and navigation -->
           <div class="title_nav">
-            <span>Other Weather Details</span>
+            Other Weather Details
             <div class="swiper-navigation">
-              <button class="additions-nav-prev border border-black hover:opacity-70">
+              <button class="additions-nav-prev border border-black hover:opacity-70" aria-label="Additions Prev Btn">
                 <Icon name="prime:arrow-up-right" size="21" class="opacity-85" />
               </button>
-              <button class="additions-nav-next bg-blue-500 hover:bg-blue-400">
+              <button class="additions-nav-next bg-blue-500 hover:bg-blue-400" aria-label="Additions Next Btn">
                 <Icon name="prime:arrow-up-right" size="21" class="text-white" />
               </button>
             </div>
@@ -190,20 +190,20 @@
                   <span class="opacity-75">Feels like</span>
                   <span>{{Math.round(currentWeather?.feelslike_c)}}°C</span>
                 </div>
-                <img src="/assets/images/thermometer.png" alt="thermometer">
+                <NuxtImg preload src="/thermometer.png" alt="thermometer" />
               </div>
             </SwiperSlide>
             <SwiperSlide>
               <div class="sun-rise-set-back">
                 <div class="rise-set-detail">
-                  <img src="/assets/images/sunrise.png" alt="sunrise">
+                  <NuxtImg preload src="/sunrise.png" alt="sunrise" />
                   <div class="rise-set-detail-text">
                     <span class="opacity-75">Sunrise</span>
                     <span>{{currentWeather?.day === undefined ? weeklyWeather?.forecast.forecastday[0].astro.sunrise : currentWeather?.astro.sunrise}}</span>
                   </div>
                 </div>
                 <div class="rise-set-detail">
-                  <img src="/assets/images/sunset.png" alt="sunset">
+                  <NuxtImg preload src="/sunset.png" alt="sunset" />
                   <div class="rise-set-detail-text">
                     <span class="opacity-75">Sunset</span>
                     <span>{{currentWeather?.day === undefined ? weeklyWeather?.forecast.forecastday[0].astro.sunset : currentWeather?.astro.sunset}}</span>
@@ -217,7 +217,7 @@
                   <span class="opacity-75">{{currentWeather?.day === undefined ? 'Precipitation' : 'Avg. Precipitation'}}</span>
                   <span>{{currentWeather?.day === undefined ? Math.round(currentWeather?.precip_mm) : Math.round(currentWeather?.day.totalprecip_mm)}}mm</span>
                 </div>
-                <img src="/assets/images/precipitation.png" alt="precipitation">
+                <NuxtImg preload src="/precipitation.png" alt="precipitation" />
               </div>
             </SwiperSlide>
             <SwiperSlide>
@@ -226,7 +226,7 @@
                   <span class="opacity-75">{{currentWeather?.day === undefined ? 'UV Index' : 'Avg. UV Index'}}</span>
                   <span>{{currentWeather?.day === undefined ? Math.round(currentWeather?.uv) : Math.round(currentWeather?.day.uv)}}</span>
                 </div>
-                <img src="/assets/images/uv.png" alt="uv">
+                <NuxtImg preload src="/uv.png" alt="uv" />
               </div>
             </SwiperSlide>
             <SwiperSlide>
@@ -235,7 +235,7 @@
                   <span class="opacity-75">{{currentWeather?.day === undefined ? 'Visibility' : 'Avg. Visibility'}}</span>
                   <span>{{currentWeather?.day === undefined ? Math.round(currentWeather?.vis_km) : Math.round(currentWeather?.day.avgvis_km)}}km</span>
                 </div>
-                <img src="/assets/images/visibility.png" alt="visibility">
+                <NuxtImg preload src="/visibility.png" alt="visibility" />
               </div>
             </SwiperSlide>
             <SwiperSlide>
@@ -244,7 +244,7 @@
                   <span class="opacity-75">{{currentWeather?.day === undefined ? 'Pressure' : 'Avg. Pressure'}}</span>
                   <span>{{currentWeather?.day === undefined ? Math.round(currentWeather?.pressure_in) : Math.round(currentWeather?.hour[10].pressure_in)}} in</span>
                 </div>
-                <img src="/assets/images/pressure.png" alt="pressure">
+                <NuxtImg preload src="/pressure.png" alt="pressure" />
               </div>
             </SwiperSlide>
           </Swiper>
@@ -333,6 +333,8 @@
   // Current weather
   const getWeather = async (city) => {
     try {
+      // weeklyWeather.value = await useFetch(`/api/weather/Almaty`);
+
       weeklyWeather.value = await fetchWeeklyWeather(city);
       if(weeklyWeather.value !== null) {
         currentWeather.value = weeklyWeather?.value.current;

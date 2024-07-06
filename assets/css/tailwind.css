@@ -10,204 +10,125 @@
 
 /* Loading page */
 .loading-page {
-    @apply w-full h-screen flex flex-col justify-center items-center;
+    @apply w-full h-screen flex flex-col justify-center items-center text-[17px];
 }
 .loading-page.dark-mode {
-    background: #282f3e;
-    color: #dcdcdc;
-}
-.loading-page .iconify {
-    display: none;
-}
-.loading-page.light-mode .loading-light {
-    display: block;
-}
-.loading-page.light-mode .loading-dark {
-    display: none;
-}
-.loading-page.dark-mode .loading-light {
-    display: none;
-}
-.loading-page.dark-mode .loading-dark {
-    display: block;
+    @apply bg-[#282f3e] text-[#dcdcdc];
 }
 
 /* Background */
 .background-page {
-    background: #f4f4f4;
-    @apply w-full h-screen font-satoshi font-normal;
+    @apply w-full h-screen font-satoshi font-normal bg-background-color;
 }
 /* Dark mode options */
 .background-page.dark-mode {
-    background: #161B27;
-    color: white;
+    @apply bg-[#161B27] text-white;
 }
 
 /* Header */
 header {
-    height: 110px;
-    @apply w-full bg-white pr-9 flex items-center justify-between;
+    @apply w-full h-[110px] bg-white pr-9 flex items-center justify-between;
 }
 /* Dark mode options */
-.background-page.dark-mode header {
-    background: #1D222D;
-    color: white;
+.background-page.dark-mode header,
+.background-page.dark-mode .current-weather-back {
+    @apply bg-[#1D222D];
 }
 
 /* Logotype */
 .logo {
-    height: 110px;
     @apply flex justify-start items-center gap-3.5 relative pl-9 mr-16;
 }
 .logo img {
-    width: 42px;
+    @apply w-[42px];
 }
 .logo span {
-    font-size: 25px;
+    @apply text-[25px];
 }
 
 /* Current location */
 .current-location {
-    @apply flex items-end;
-    gap: 6px;
-}
-.current-location .iconify {
-    @apply text-blue-500;
+    @apply flex items-end gap-[6px];
 }
 .current-location span {
-    font-size: 18px;
-    opacity: .9;
+    @apply text-[18px] opacity-90;
 }
 
 /* Search */
 .search {
-    width: 400px;
-    margin-right: 20px;
-    position: relative;
+    @apply w-[400px] mr-[20px] relative;
 }
 .search input {
-    width: 100%;
-    height: 50px;
-
-    border-radius: 24px;
-    border: 1px solid #d6d6d6;
-    background: transparent;
-
-    padding: 0 66px;
-    margin: 30px 0;
-
-    font-size: 15.5px;
-}
-.search input:focus {
-    @apply outline-none border-blue-400;
+    @apply w-full h-[50px] rounded-[24px] border border-[#d6d6d6] bg-transparent px-[66px] my-[30px] text-[15.5px] focus:outline-none focus:border-blue-400;
 }
 .search-input:focus + .icon-wrapper .iconify {
     @apply text-blue-400;
 }
 .icon-wrapper {
-    height: 20px;
-    @apply absolute left-0 top-1/2 -translate-y-1/2 ml-9;
+    @apply h-[20px] absolute left-0 top-1/2 -translate-y-1/2 ml-9;
 }
 .icon-wrapper .iconify {
-    color: #aaadb8;
+    @apply text-[#aaadb8];
 }
 .search-result {
-    @apply w-full absolute top-0 left-0 rounded-2xl z-10;
-
-    border: 1px solid #d6d6d6;
-    background: #fbfbfb;
-
-    margin-top: 90px;
-    padding: 10px 24px 5px;
-
-    max-height: 290px;
-    overflow-y: auto;
+    @apply w-full max-h-[290px] overflow-y-auto absolute top-0 left-0 rounded-2xl z-10 border border-[#d6d6d6] bg-[#fbfbfb] mt-[90px] pt-[10px] px-[24px] pb-[5px];
 }
 /* Dark mode options */
 .background-page.dark-mode .search-result {
-    background: #252b39;
-    border-color: rgba(255, 255, 255, 0.18);
+    @apply bg-[#252b39] border-[#FFFFFF2D]
 }
-.search-result::-webkit-scrollbar {
-    width: 5px;
+.search-result::-webkit-scrollbar,
+.current-weather-back::-webkit-scrollbar {
+    @apply w-[5px];
 }
-.search-result::-webkit-scrollbar-track
-{
-    background: transparent;
+.search-result::-webkit-scrollbar-track,
+.current-weather-back::-webkit-scrollbar-track,
+.weather-suggestions::-webkit-scrollbar-track {
+    @apply bg-transparent;
 }
-.search-result::-webkit-scrollbar-thumb
-{
-    background: #d3d3d3;
-    border-radius: 3px;
+.search-result::-webkit-scrollbar-thumb,
+.current-weather-back::-webkit-scrollbar-thumb {
+    @apply bg-[#d3d3d3] rounded-[3px];
 }
-.background-page.dark-mode .search-result::-webkit-scrollbar-thumb {
-    background: #4f5a71;
+.background-page.dark-mode .search-result::-webkit-scrollbar-thumb,
+.background-page.dark-mode .current-weather-back::-webkit-scrollbar-thumb,
+.background-page.dark-mode .weather-suggestions::-webkit-scrollbar-thumb {
+    @apply bg-[#4f5a71];
 }
 .search-result li {
-    height: 40px;
-    /*background: red;*/
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    border-bottom: 1px solid #dddddd;
-    padding-left: 5px;
-    cursor: pointer;
+    @apply h-[40px] flex justify-between items-center border-b border-gray-300 pl-[5px] cursor-pointer hover:border-[#b3b3b3];
 }
 .background-page.dark-mode .search-result li {
-    border-bottom-color: rgba(255, 255, 255, 0.18);
+    @apply border-[#FFFFFF2D];
 }
 .search-result li:last-child {
-    border-bottom: none;
-}
-.search-result li .iconify {
-    opacity: .8;
-    margin-right: -8px;
-}
-.search-result li:hover {
-    border-color: #b3b3b3;
+    @apply border-none;
 }
 
 /* Theme changer */
 .change-theme {
-    @apply flex justify-between items-center relative;
-    /*width: 100px;*/
-    height: 48px;
-    background: #f1f1f1;
-    border-radius: 24px;
+    @apply h-[48px] bg-[#f1f1f1] rounded-3xl flex justify-between items-center relative;
 }
 /* Dark mode options */
 .background-page.dark-mode .change-theme {
-    background: #2e3849;
+    @apply bg-[#2e3849];
 }
 .active-theme {
-    @apply absolute left-0 top-1/2 -translate-y-1/2 z-0 bg-blue-500 rounded-3xl;
-    height: 48px;
-    width: 48px;
-    transition: .7s;
+    @apply w-[48px] h-[48px] absolute left-0 top-1/2 -translate-y-1/2 z-0 bg-blue-500 rounded-3xl transition-all duration-700;
 }
 /* Dark mode options */
 .background-page.dark-mode .active-theme {
-    transform: translate(48px, -50%);
+    @apply transform translate-x-[48px] -translate-y-1/2;
 }
 .light-theme,
 .dark-theme {
-    @apply flex justify-center items-center cursor-pointer;
-    height: 48px;
-    width: 48px;
-    z-index: 1;
+    @apply w-[48px] h-[48px]  flex justify-center items-center cursor-pointer z-[1];
 }
 .light-theme {
-    color: white;
-    transition: 1.2s;
+    @apply text-white transition-all duration-[1000ms] hover:rotate-180;
 }
 .dark-theme {
-    transition: .5s;
-}
-.light-theme:hover {
-    transform: rotateZ(180deg);
-}
-.dark-theme:hover {
-    transform: rotateZ(-30deg);
+    @apply transition-all duration-500 hover:rotate-[-30deg];
 }
 .change-theme .iconify {
     pointer-events: none;
@@ -224,8 +145,7 @@ header {
     @apply font-medium opacity-80 ml-0.5;
 }
 .today-date > span {
-    font-size: 17px;
-    @apply font-medium opacity-65;
+    @apply font-medium text-[17px] opacity-65;
 }
 
 /* Bottom side with all weather info */
@@ -235,31 +155,7 @@ header {
 
 /* Current weather information back */
 .current-weather-back {
-    width: 390px;
-    @apply h-full overflow-y-auto flex flex-col px-9;
-    background: #ffffff;
-    /*border-color: #f1f1f1;*/
-}
-/* Dark mode options */
-.background-page.dark-mode .current-weather-back {
-    background: #1D222D;
-    color: white;
-}
-.current-weather-back::-webkit-scrollbar {
-    width: 5px;
-}
-.current-weather-back::-webkit-scrollbar-track
-{
-    background: transparent;
-}
-.current-weather-back::-webkit-scrollbar-thumb
-{
-    background: #d3d3d3;
-    border-radius: 3px;
-}
-/* Dark mode options */
-.background-page.dark-mode .current-weather-back::-webkit-scrollbar-thumb {
-    background: #4f5a71;
+    @apply w-[390px] bg-white h-full overflow-y-auto flex flex-col px-9;
 }
 
 /* Current weather */
@@ -272,9 +168,7 @@ header {
     @apply w-1/2 object-contain;
 }
 .current-temp {
-    font-size: 50px;
-    font-weight: 900;
-    @apply flex flex-col;
+    @apply flex flex-col text-[50px] font-black;
 }
 
 /* Curr weather temperature details */
@@ -282,7 +176,7 @@ header {
     @apply flex items-start gap-2;
 }
 .temp-detail img {
-    height: 22px;
+    @apply h-[22px];
 }
 .temp-detail span {
     @apply font-medium opacity-80;
@@ -295,12 +189,10 @@ header {
 
 /* Current date */
 .current-date div {
-    font-size: 25.5px;
-    margin-top: 8px;
+    @apply text-[25.5px] mt-2;
 }
 .current-date > span {
-    font-size: 16.5px;
-    @apply font-medium opacity-55;
+    @apply font-medium text-[16.5px] opacity-55;
 }
 .current-date div span:first-child {
     @apply font-black;
@@ -314,20 +206,17 @@ header {
     @apply w-full mt-7;
 }
 .weather-details > span {
-    font-size: 16.5px;
-    @apply font-medium opacity-55;
+    @apply text-[16.5px] font-medium opacity-55;
 }
 .detail-item {
-    height: 60px;
-    background: #e9f3fd;
-    @apply w-full flex items-center px-6 gap-4 rounded-xl;
+    @apply w-full h-[60px] bg-[#e9f3fd] flex items-center px-6 gap-4 rounded-xl;
 }
 /* Dark mode options */
 .background-page.dark-mode .detail-item {
-    background: #282f3e;
+    @apply bg-[#282f3e];
 }
 .detail-item img {
-    width: 35px;
+    @apply w-[35px];
 }
 .detail-item-span {
     @apply mb-0.5 font-medium opacity-90;
@@ -338,31 +227,19 @@ header {
     @apply w-[calc(100%-390px)] pl-10 py-12 flex flex-col justify-between overflow-y-auto;
 }
 .weather-suggestions::-webkit-scrollbar {
-    width: 7px;
+    @apply w-[7px];
 }
-.weather-suggestions::-webkit-scrollbar-track
-{
-    background: transparent;
-}
-.weather-suggestions::-webkit-scrollbar-thumb
-{
-    background: #b1b1b1;
-    border-radius: 4px;
+.weather-suggestions::-webkit-scrollbar-thumb {
+    @apply rounded-b bg-[#b1b1b1];
 }
 /* Dark mode options */
-.background-page.dark-mode .weather-suggestions::-webkit-scrollbar-thumb {
-    background: #4f5a71;
-}
 .suggestion-item {
     @apply w-full;
 }
 
 /* Title and Navigation */
 .title_nav {
-    @apply flex justify-between items-center pr-10;
-}
-.title_nav span {
-    @apply font-medium text-xl;
+    @apply flex justify-between items-center pr-10 font-medium text-xl;
 }
 .swiper-navigation {
     @apply flex items-center gap-2;
@@ -371,35 +248,29 @@ header {
 .weekly-nav-next,
 .additions-nav-prev,
 .additions-nav-next {
-    width: 34px;
-    height: 34px;
-    transition: .2s;
-
-    @apply rounded-3xl flex justify-center items-center;
+    @apply w-[34px] h-[34px] rounded-3xl flex justify-center items-center transition-opacity duration-200;
 }
 /* Dark mode options */
 .background-page.dark-mode .weekly-nav-prev,
 .background-page.dark-mode .additions-nav-prev {
-    border-color: white;
+    @apply border-white;
 }
 .swiper-navigation button .iconify {
-    transform: rotate(225deg);
-    @apply cursor-pointer;
+    @apply cursor-pointer rotate-[225deg];
 }
 .swiper-navigation button:nth-child(2) .iconify {
-    transform: rotate(45deg);
+    @apply rotate-45;
 }
 
 /* Swiper */
 .swiper {
-    width: 100%;
+    @apply w-full;
 }
 .forecast-swiper {
     margin-bottom: 50px;
 }
 .swiper-wrapper {
-    padding-top: 20px;
-    align-items: end;
+    @apply pt-5 items-end;
 }
 .swiper-slide {
     @apply !w-fit !h-fit;
@@ -410,40 +281,30 @@ header {
 
 /* Weather card */
 .weather-card {
-    width: 160px;
-    height: 185px;
-
-    border-radius: 22px;
-    padding: 20px 25px;
-
-    transition: transform .3s;
-
-    @apply flex flex-col justify-between bg-white box-content cursor-pointer;
+    @apply w-[160px] h-[185px] flex flex-col justify-between bg-white box-content cursor-pointer rounded-[22px] py-5 px-[25px] transition-transform duration-300;
 }
 /* Dark mode options */
-.background-page.dark-mode .weather-card {
-    background: #252b39;
+.background-page.dark-mode .weather-card,
+.background-page.dark-mode .sun-rise-set-back,
+.background-page.dark-mode .add-detail {
+    @apply bg-[#252b39];
 }
 .weather-card:hover,
 .background-page.dark-mode .weather-card:hover {
-    transform: translateY(-8px);
+    @apply -translate-y-2;
 }
 .weather-card > span:first-child {
-    font-size: 18px;
-    font-weight: 600;
+    @apply text-[18px] font-[600];
 }
-.weather-card img {
-    width: 125px;
-    object-fit: contain;
-    margin: 6px auto;
+.weather-card img,
+.weather-card.today img {
+    @apply w-[125px] object-contain my-1.5 mx-auto;
 }
 .weather-card.today img {
-    width: 145px;
-    object-fit: contain;
-    margin: 0 auto 5px;
+    @apply w-[145px];
 }
 .weather-card div span {
-    font-size: 22px;
+    @apply text-[22px];
 }
 
 .additional-details {
@@ -452,55 +313,31 @@ header {
 
 /* Sunrise & Sunset */
 .sun-rise-set-back {
-    @apply w-fit flex items-center bg-white font-medium;
-
-    height: 120px;
-
-    border-radius: 22px;
-
-    gap: 70px;
-    padding: 0 35px;
+    @apply w-fit h-[120px] rounded-[22px] gap-[70px] px-[35px] flex items-center bg-white font-medium;
 }
 .rise-set-detail {
-    @apply flex items-center;
-    gap: 15px;
+    @apply flex items-center gap-[15px];
 }
 .rise-set-detail-text {
-    @apply flex flex-col;
-
-    margin-top: 8px;
-    gap: 2px;
+    @apply flex flex-col mt-2 gap-0.5;
 }
 .rise-set-detail-text span:last-child {
-    font-size: 17px;
+    @apply text-[17px];
 }
 .rise-set-detail img {
-    width: 55px;
-    object-fit: contain;
+    @apply w-[55px] object-contain;
 }
 
 /* Additional detail */
 .add-detail {
-    @apply w-fit flex bg-white gap-2.5 font-medium;
-
-    height: 120px;
-    padding: 20px 15px 20px 25px;
-    border-radius: 22px;
+    @apply w-fit h-[120px] py-5 pr-[15px] pl-[25px] rounded-[22px] flex bg-white gap-2.5 font-medium;
 }
 .add-detail-text {
     @apply flex flex-col;
 }
 .add-detail-text span:last-child {
-    font-size: 22px;
-    font-weight: 600;
+    @apply text-[22px] font-[600];
 }
 .add-detail img {
-    width: 60px;
-    object-fit: contain;
-    margin-bottom: -30px;
-}
-
-.background-page.dark-mode .sun-rise-set-back,
-.background-page.dark-mode .add-detail {
-    background: #252b39;
+    @apply w-[60px] object-contain -mb-[30px];
 }
