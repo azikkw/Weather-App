@@ -1,9 +1,36 @@
 <template>
-  <div v-if="weeklyWeather === null" :class="['loading-page', themeMode]">
+  <div v-if="permissionStatus?.state === 'prompt'" class="access-status">
+    <NuxtImg preload src="/weather-app.png" alt="logo" />
+    <span class="font-bold">Weather Forecast</span>
+    <span>Welcome! To view the weather, click "Get started".</span>
+    <button @click="getStarted" aria-label="Start Btn">Get started</button>
+  </div>
+  <div v-else-if="!showWeather && permissionStatus?.state === 'denied'" :class="['access-status st-denied', themeMode]">
+    <NuxtImg preload src="/weather-app.png" alt="logo" />
+    <span class="font-bold">Weather Forecast</span>
+    <!-- Search -->
+    <div class="search">
+      <div class="search-input-back">
+        <input type="text" v-model="searchQuery" @keyup="searchCities" placeholder="Search City...." class="search-input" />
+        <span class="icon-wrapper -mt-[11.5px]">
+            <Icon name="ph:magnifying-glass" size="20px" />
+          </span>
+      </div>
+      <ul class="search-result" :style="{ display: citiesList.length > 0 ? 'block' : 'none' }">
+        <li v-for="city in citiesList" @click="getWeather(city)">
+          {{city}} <Icon class="-mr-2 opacity-80" name="material-symbols-light:chevron-right-rounded" size="28px" />
+        </li>
+      </ul>
+    </div>
+    <p class="give-access">
+      If you want your location to be determined automatically, then give <br> access to <span>"Privacy and Security"</span> in the browser settings.
+    </p>
+  </div>
+  <div v-else-if="permissionStatus?.state === 'granted' && !weeklyWeather" :class="['loading-page', themeMode]">
     <Icon name="meteocons:compass-fill" size="70" />
     Defining your geolocation...
   </div>
-  <div v-else :class="['background-page', themeMode]">
+  <div v-else-if="showWeather && weeklyWeather" :class="['background-page', themeMode]">
     <header>
       <!-- Logotype -->
       <div class="logo">
@@ -264,14 +291,18 @@
   import { Navigation, Pagination } from "swiper/modules";
   import "swiper/swiper-bundle.css";
 
-  import { fetchWeeklyWeather } from "~/services/WeatherService.js";
   import { getLocation } from "~/services/UserLocationService.js";
 
   import { search } from "~/services/SearchCityService.js";
   import { debounce } from "lodash";
 
-  const currentDate = ref(moment())
+  const permissionStatus = ref('');
+  const currentDate = ref(moment());
+  const showWeather = ref(false);
+
+  /** @type {import('~/types/weather').WeatherData} */
   const weeklyWeather = ref(null);
+  /** @type {import('~/types/weather').CurrentWeather} */
   const currentWeather = ref(null);
 
   let citiesList = ref([]);
@@ -286,14 +317,18 @@
       themeMode.value = localStorage.getItem('themeMode');
     } else localStorage.setItem('themeMode', 'light-mode');
 
-    await userLocation();
+    permissionStatus.value = await navigator.permissions.query({ name: 'geolocation' });
 
-    // Update current date
-    const interval = setInterval(() => {
-      getDateByCity();
-    }, 1000);
+    if(permissionStatus.value.state === 'granted') {
+      await defineUserLocation();
 
-    onUnmounted(() => clearInterval(interval));
+      // Update current date
+      const interval = setInterval(() => {
+        getDateByCity();
+      }, 1000);
+
+      onUnmounted(() => clearInterval(interval));
+    }
   });
 
   // Theme changer
@@ -320,10 +355,21 @@
     return currentDate.value.format('dddd');
   });
 
-  // Current user location
-  const userLocation = async () => {
+  // On getting started
+  const getStarted = async () => {
     try {
-      const pos = await getLocation()
+      const pos = await getLocation();
+      window.location.reload();
+      await getWeather(pos.latitude + ',' + pos.longitude);
+    } catch(error) {
+      console.error('Cannot find user position and city:', error);
+    }
+  }
+
+  // Current user location
+  const defineUserLocation = async () => {
+    try {
+      const pos = await getLocation();
       await getWeather(pos.latitude + ',' + pos.longitude);
     } catch(error) {
       console.error('Cannot find user position and city:', error);
@@ -333,14 +379,15 @@
   // Current weather
   const getWeather = async (city) => {
     try {
-      // weeklyWeather.value = await useFetch(`/api/weather/Almaty`);
+      const { data } = await useFetch(`/api/weather/${city}`);
+      weeklyWeather.value = data.value;
 
-      weeklyWeather.value = await fetchWeeklyWeather(city);
       if(weeklyWeather.value !== null) {
         currentWeather.value = weeklyWeather?.value.current;
       }
       getDateByCity();
 
+      showWeather.value = true;
       searchQuery.value = '';
       citiesList = [];
 

@@ -8,11 +8,38 @@
     src: url("/assets/fonts/Satoshi-Variable.ttf");
 }
 
+/* Geolocation permission status results */
+.access-status {
+    @apply w-full h-screen flex flex-col justify-center items-center;
+}
+.access-status.st-denied {
+    @apply justify-start pt-[100px];
+}
+.access-status img {
+    @apply w-[120px] h-[120px] mb-3;
+}
+.access-status span:nth-child(2) {
+    @apply text-[28px] mb-5;
+}
+.access-status span:nth-child(3) {
+    @apply text-[17px] mb-[14px] opacity-80;
+}
+.access-status button {
+    @apply w-[190px] h-[52px] bg-blue-500 text-[18px] rounded-[26px] text-white hover:bg-blue-400 transition-all duration-200;
+}
+.give-access {
+    @apply text-[15px] absolute bottom-0 mb-[50px] opacity-75 text-center;
+}
+.give-access span {
+    @apply !text-[15px] font-medium underline;
+}
+
 /* Loading page */
 .loading-page {
     @apply w-full h-screen flex flex-col justify-center items-center text-[17px];
 }
-.loading-page.dark-mode {
+.loading-page.dark-mode,
+.access-status.st-denied.dark-mode {
     @apply bg-[#282f3e] text-[#dcdcdc];
 }
 
@@ -74,7 +101,8 @@ header {
     @apply w-full max-h-[290px] overflow-y-auto absolute top-0 left-0 rounded-2xl z-10 border border-[#d6d6d6] bg-[#fbfbfb] mt-[90px] pt-[10px] px-[24px] pb-[5px];
 }
 /* Dark mode options */
-.background-page.dark-mode .search-result {
+.background-page.dark-mode .search-result,
+.access-status.st-denied.dark-mode .search-result {
     @apply bg-[#252b39] border-[#FFFFFF2D]
 }
 .search-result::-webkit-scrollbar,
@@ -92,13 +120,15 @@ header {
 }
 .background-page.dark-mode .search-result::-webkit-scrollbar-thumb,
 .background-page.dark-mode .current-weather-back::-webkit-scrollbar-thumb,
-.background-page.dark-mode .weather-suggestions::-webkit-scrollbar-thumb {
+.background-page.dark-mode .weather-suggestions::-webkit-scrollbar-thumb,
+.access-status.st-denied.dark-mode .search-result::-webkit-scrollbar-thumb {
     @apply bg-[#4f5a71];
 }
 .search-result li {
     @apply h-[40px] flex justify-between items-center border-b border-gray-300 pl-[5px] cursor-pointer hover:border-[#b3b3b3];
 }
-.background-page.dark-mode .search-result li {
+.background-page.dark-mode .search-result li,
+.access-status.st-denied.dark-mode .search-result li {
     @apply border-[#FFFFFF2D];
 }
 .search-result li:last-child {

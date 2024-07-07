@@ -1,4 +1,4 @@
-// Get current location of the user
+// Get current geolocation of the user
 export const getLocation = () => {
     return new Promise((resolve, reject) => {
         if(navigator.geolocation) {
@@ -10,7 +10,8 @@ export const getLocation = () => {
                     })
                 },
                 (err) => {
-                    reject('Error: ' + err.message)
+                    window.location.reload();
+                    reject('Error: ' + err.message);
                 }
             )
         } else {
