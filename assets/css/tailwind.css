@@ -8,30 +8,33 @@
     src: url("/assets/fonts/Satoshi-Variable.ttf");
 }
 
-/* Geolocation permission status results */
-.access-status {
-    @apply w-full h-screen flex flex-col justify-center items-center p-5;
+/* Welcome page for user first interaction with website */
+.first-page {
+    @apply w-full h-screen flex flex-col items-center p-[15px] pt-[50px] lg:pt-[100px] transition-all duration-300;
 }
-.access-status.st-denied {
-    @apply justify-start p-5 lg:pt-[100px];
+.first-title {
+    @apply mb-[30px] text-[28px];
 }
-.access-status img {
-    @apply w-[120px] h-[120px] mb-3;
+.first-title img {
+    @apply w-[120px] h-[120px] mx-auto mb-3;
 }
-.access-status span:nth-child(2) {
-    @apply text-[28px] mb-5;
+.first-page.is-focused {
+    @apply pt-[15px] lg:items-center lg:pt-[100px];
 }
-.access-status span:nth-child(3) {
-    @apply text-[17px] mb-[14px] opacity-75 text-center;
+.first-page.is-focused .first-title {
+    @apply w-full lg:w-fit flex lg:block justify-center items-center gap-[10px] text-[23px] lg:text-[28px] mb-5 lg:mb-[30px];
 }
-.access-status button {
-    @apply w-[75%] lg:w-[190px] h-[60px] lg:h-[52px] bg-blue-500 text-[18px] rounded-[30px] text-white hover:bg-blue-400 transition-all duration-200;
+.first-page.is-focused img {
+    @apply w-[35px] h-[35px] m-0 lg:w-[120px] lg:h-[120px] lg:mx-auto lg:mb-3;
 }
-.give-access {
-    @apply w-full lg:w-[500px] text-[15px] absolute bottom-0 mb-[50px] opacity-75 text-center;
+.first-page .search-result {
+    @apply relative mt-3 overflow-x-hidden;
 }
-.give-access span {
-    @apply !text-[15px] font-medium underline;
+.first-page .search-result li {
+    @apply w-full;
+}
+.first-page.is-focused .search-result {
+    @apply max-h-screen lg:max-h-[290px] border-none lg:border-[#d6d6d6] bg-transparent lg:bg-[#fbfbfb] p-0 lg:pt-[10px] lg:px-[24px] lg:pb-[5px];
 }
 
 /* Loading page */
@@ -39,13 +42,13 @@
     @apply w-full h-screen flex flex-col justify-center items-center text-[17px];
 }
 .loading-page.dark-mode,
-.access-status.st-denied.dark-mode {
+.first-page.dark-mode {
     @apply bg-[#282f3e] text-[#dcdcdc];
 }
 
 /* Background */
 .background-page {
-    @apply w-full h-screen font-satoshi font-normal bg-background-color;
+    @apply w-full h-screen font-satoshi font-normal bg-background-color overflow-x-hidden;
 }
 /* Dark mode options */
 .background-page.dark-mode {
@@ -54,39 +57,44 @@
 
 /* Header */
 header {
-    @apply w-full h-[110px] bg-white pr-9 flex items-center justify-between;
+    @apply relative w-full h-fit lg:h-[110px] bg-white p-[15px] lg:py-0 lg:px-9 flex items-center justify-between;
 }
 /* Dark mode options */
-.background-page.dark-mode header,
-.background-page.dark-mode .current-weather-back {
+.background-page.dark-mode header {
     @apply bg-[#1D222D];
+}
+.background-page.dark-mode .current-weather-back {
+    @apply bg-transparent lg:bg-[#1D222D];
 }
 
 /* Logotype */
 .logo {
-    @apply flex justify-start items-center gap-3.5 relative pl-9 mr-16;
+    @apply flex justify-start items-center gap-3.5 relative mr-16;
 }
 .logo img {
-    @apply w-[42px];
+    @apply w-[50px] lg:w-[42px];
 }
 .logo span {
-    @apply text-[25px];
+    @apply invisible lg:visible text-[25px];
 }
 
 /* Current location */
 .current-location {
-    @apply flex items-end gap-[6px];
+    @apply absolute top-[120px] left-1/2 -translate-x-1/2 lg:relative lg:top-0 lg:left-[50px] flex items-center lg:items-end gap-[6px];
 }
 .current-location span {
-    @apply text-[18px] opacity-90;
+    @apply text-[21px] lg:text-[18px] font-medium lg:font-bold opacity-90;
 }
 
 /* Search */
 .search {
-    @apply w-[400px] mr-[20px] relative;
+    @apply  lg:block w-full lg:w-[400px] lg:mr-[20px];
+}
+.search-input-back {
+    @apply relative;
 }
 .search input {
-    @apply w-full h-[50px] rounded-[24px] border border-[#d6d6d6] bg-transparent px-[66px] my-[30px] text-[15.5px] focus:outline-none focus:border-blue-400;
+    @apply w-full h-[50px] rounded-[24px] border border-[#d6d6d6] bg-transparent px-[66px] text-[15.5px] focus:outline-none focus:border-blue-400;
 }
 .search-input:focus + .icon-wrapper .iconify {
     @apply text-blue-400;
@@ -166,7 +174,7 @@ header {
 
 /* Today's date on header */
 .today-date {
-    @apply flex flex-col items-end;
+    @apply hidden lg:flex flex-col items-end;
 }
 .today-date div {
     font-size: 22px;
@@ -180,39 +188,45 @@ header {
 
 /* Bottom side with all weather info */
 .weather-dashboard {
-    @apply w-full h-[calc(100%-110px)] flex;
+    @apply w-full h-auto lg:h-[calc(100%-110px)] block lg:flex;
 }
 
 /* Current weather information back */
 .current-weather-back {
-    @apply w-[390px] bg-white h-full overflow-y-auto flex flex-col px-9;
+    @apply w-full lg:w-[390px] bg-transparent lg:bg-white h-full lg:overflow-y-auto flex flex-col px-[15px] pt-[100px] lg:pt-5 lg:px-9;
 }
 
 /* Current weather */
 .current-weather {
-    @apply flex justify-center box-content gap-7 mt-5;
+    @apply flex flex-col lg:flex-row justify-center items-center box-content gap-[10px] lg:gap-7;
 }
 
 /* Current weather part */
 .current-weather-icon {
-    @apply w-1/2 object-contain;
+    @apply w-[70%] lg:w-1/2 object-contain;
 }
 .current-temp {
-    @apply flex flex-col text-[50px] font-black;
+    @apply flex flex-col items-center lg:items-start text-[65px] lg:text-[50px] font-black;
 }
 
 /* Curr weather temperature details */
+.temp-detail-back {
+    @apply flex gap-[20px] lg:block;
+}
 .temp-detail {
-    @apply flex items-start gap-2;
+    @apply flex items-center lg:items-start gap-2;
 }
 .temp-detail img {
     @apply h-[22px];
 }
 .temp-detail span {
-    @apply font-medium opacity-80;
+    @apply font-medium opacity-80 text-[19px] lg:text-[16px];
 }
 
 /* Divider */
+hr {
+    @apply hidden lg:block;
+}
 .background-page.dark-mode hr {
     opacity: .25;
 }
@@ -254,7 +268,7 @@ header {
 
 /* Right sight, weather suggestions */
 .weather-suggestions {
-    @apply w-[calc(100%-390px)] pl-10 py-12 flex flex-col justify-between overflow-y-auto;
+    @apply w-full lg:w-[calc(100%-390px)] p-[15px] py-8 lg:pl-10 lg:py-12 flex flex-col justify-between lg:overflow-y-auto;
 }
 .weather-suggestions::-webkit-scrollbar {
     @apply w-[7px];
@@ -269,7 +283,7 @@ header {
 
 /* Title and Navigation */
 .title_nav {
-    @apply flex justify-between items-center pr-10 font-medium text-xl;
+    @apply flex justify-between items-center pr-10 font-medium text-[18px] lg:text-xl;
 }
 .swiper-navigation {
     @apply flex items-center gap-2;
@@ -278,7 +292,7 @@ header {
 .weekly-nav-next,
 .additions-nav-prev,
 .additions-nav-next {
-    @apply w-[34px] h-[34px] rounded-3xl flex justify-center items-center transition-opacity duration-200;
+    @apply w-[34px] h-[34px] rounded-3xl hidden lg:flex justify-center items-center transition-opacity duration-200;
 }
 /* Dark mode options */
 .background-page.dark-mode .weekly-nav-prev,
@@ -300,18 +314,28 @@ header {
     margin-bottom: 50px;
 }
 .swiper-wrapper {
-    @apply pt-5 items-end;
+    @apply !block lg:!flex pt-[10px] lg:pt-5 items-end;
 }
 .swiper-slide {
-    @apply !w-fit !h-fit;
+    @apply !w-full lg:!w-fit !h-fit;
 }
 .swiper-slide:last-child {
-    margin-right: 40px;
+    @apply lg:mr-[40px];
 }
 
 /* Weather card */
 .weather-card {
-    @apply w-[160px] h-[185px] flex flex-col justify-between bg-white box-content cursor-pointer rounded-[22px] py-5 px-[25px] transition-transform duration-300;
+    @apply lg:w-[160px] h-[40px] lg:h-[185px]
+    flex flex-row lg:flex-col items-center lg:items-start justify-between bg-white box-content
+    cursor-pointer rounded-none lg:rounded-[22px] py-[15px] lg:py-5 px-[25px]
+    border-b border-[#333C4F] lg:border-none
+    lg:transition-transform lg:duration-300;
+}
+.swiper-wrapper .swiper-slide:first-child .weather-card {
+    @apply rounded-t-xl lg:rounded-[22px];
+}
+.swiper-wrapper .swiper-slide:last-child .weather-card {
+    @apply rounded-b-xl lg:rounded-[22px];
 }
 /* Dark mode options */
 .background-page.dark-mode .weather-card,
@@ -321,20 +345,20 @@ header {
 }
 .weather-card:hover,
 .background-page.dark-mode .weather-card:hover {
-    @apply -translate-y-2;
+    @apply lg:-translate-y-2;
 }
 .weather-card > span:first-child {
-    @apply text-[18px] font-[600];
+    @apply text-[18px] font-medium lg:font-[600];
 }
 .weather-card img,
 .weather-card.today img {
-    @apply w-[125px] object-contain my-1.5 mx-auto;
+    @apply w-[40px] lg:w-[125px] object-contain my-1.5 mx-auto;
 }
 .weather-card.today img {
     @apply w-[145px];
 }
 .weather-card div span {
-    @apply text-[22px];
+    @apply text-[19px] lg:text-[22px];
 }
 
 .additional-details {

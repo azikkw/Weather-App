@@ -1,18 +1,20 @@
 <template>
-  <div v-if="permissionStatus?.state === 'prompt'" class="access-status">
-    <NuxtImg preload src="/weather-app.png" alt="logo" />
-    <span class="font-bold">Weather Forecast</span>
-    <span>Welcome! To view the weather, click "Get started".</span>
-    <button @click="getStarted" aria-label="Start Btn">Get started</button>
-  </div>
-  <div v-else-if="!showWeather && permissionStatus?.state === 'denied'" :class="['access-status st-denied', themeMode]">
-    <NuxtImg preload src="/weather-app.png" alt="logo" />
-    <span class="font-bold">Weather Forecast</span>
+<!--  <div v-if="permissionStatus?.state === 'prompt'" class="access-status">-->
+<!--    <NuxtImg preload src="/weather-app.png" alt="logo" />-->
+<!--    <span class="font-bold">Weather Forecast</span>-->
+<!--    <span>Welcome! To view the weather, click "Get started".</span>-->
+<!--    <button @click="getStarted" aria-label="Start Btn">Get started</button>-->
+<!--  </div>-->
+  <div v-if="!weeklyWeather" :class="['first-page', themeMode, {'is-focused': isFocused}]">
+    <div class="first-title">
+      <NuxtImg preload src="/weather-app.png" alt="logo" />
+      <p class="font-bold">Weather Forecast</p>
+    </div>
     <!-- Search -->
     <div class="search">
       <div class="search-input-back">
-        <input type="text" v-model="searchQuery" @keyup="searchCities" placeholder="Search City...." class="search-input" />
-        <span class="icon-wrapper -mt-[11.5px]">
+        <input type="text" v-model="searchQuery" @keyup="searchCities" placeholder="Search City...." class="search-input" @focus="handleFocus" @blur="handleBlur" />
+        <span class="icon-wrapper mt-[0.5px]">
             <Icon name="ph:magnifying-glass" size="20px" />
           </span>
       </div>
@@ -22,15 +24,12 @@
         </li>
       </ul>
     </div>
-    <p class="give-access">
-      If you want your location to be determined automatically, then give access to <span>"Privacy and Security"</span> in the browser settings.
-    </p>
   </div>
-  <div v-else-if="permissionStatus?.state === 'granted' && !weeklyWeather" :class="['loading-page', themeMode]">
-    <Icon name="meteocons:compass-fill" size="70" />
-    Defining your geolocation...
-  </div>
-  <div v-else-if="showWeather && weeklyWeather" :class="['background-page', themeMode]">
+<!--  <div v-else-if="permissionStatus?.state === 'granted' && !weeklyWeather" :class="['loading-page', themeMode]">-->
+<!--    <Icon name="meteocons:compass-fill" size="70" />-->
+<!--    Defining your geolocation...-->
+<!--  </div>-->
+  <div v-else-if="weeklyWeather" :class="['background-page', themeMode]">
     <header>
       <!-- Logotype -->
       <div class="logo">
@@ -40,7 +39,7 @@
       <!-- Current location -->
       <div class="current-location">
         <Icon class="text-blue-500" name="ci:location" size="28px"/>
-        <span class="font-bold">{{ weeklyWeather?.location.name }}</span>
+        <span>{{ weeklyWeather?.location.name }}</span>
       </div>
       <!-- Search -->
       <div class="search">
@@ -92,18 +91,23 @@
           <NuxtImg preload v-else-if="currentWeather?.condition.code === 1087 || currentWeather?.condition.code === 1273 || currentWeather?.condition.code === 1276" src="/thunder.png" alt="weather" class="current-weather-icon" />
           <div>
             <span class="current-temp">{{Math.round(currentWeather?.temp_c)}}°C</span>
-            <div class="temp-detail mb-2">
-              <NuxtImg preload src="/high-temp.png" alt="h-temp" />
-              <span>H: {{Math.round(weeklyWeather?.forecast.forecastday[0].day.maxtemp_c)}}°C</span>
-            </div>
-            <div class="temp-detail">
-              <NuxtImg preload src="/low-temp.png" alt="l-temp" />
-              <span>L: {{Math.round(weeklyWeather?.forecast.forecastday[0].day.mintemp_c)}}°C</span>
+            <div class="temp-detail-back">
+              <div class="temp-detail lg:mb-2">
+                <NuxtImg preload src="/high-temp.png" alt="h-temp" />
+                <span>H: {{Math.round(weeklyWeather?.forecast.forecastday[0].day.maxtemp_c)}}°C</span>
+              </div>
+              <div class="temp-detail">
+                <NuxtImg preload src="/low-temp.png" alt="l-temp" />
+                <span>L: {{Math.round(weeklyWeather?.forecast.forecastday[0].day.mintemp_c)}}°C</span>
+              </div>
             </div>
           </div>
         </div>
         <!-- For forecast weather -->
         <div v-else class="current-weather">
+          <div class="block lg:hidden text-[18.5px] mb-[15px] opacity-75 -mt-[25px]">
+            {{currentWeather?.forecastDayOfWeek}}, {{currentWeather?.forecastDate.slice(0, -5)}}
+          </div>
           <NuxtImg preload v-if="currentWeather?.day.condition.code === 1000" src="/sun.png" alt="weather" class="current-weather-icon" />
           <NuxtImg preload v-else-if="currentWeather?.day.condition.code === 1003 || currentWeather?.day.condition.code === 1006" src="/cloudy.png" alt="weather" class="current-weather-icon" />
           <NuxtImg preload v-else-if="currentWeather?.day.condition.code > 1006 && currentWeather?.day.condition.code < 1063" src="/clouds.png" alt="weather" class="current-weather-icon" />
@@ -123,20 +127,22 @@
               <span class="text-lg font-medium -mb-3 opacity-70">Avg:</span>
               {{Math.round(currentWeather?.day.avgtemp_c)}}°C
             </span>
-            <div class="temp-detail mb-2">
-              <NuxtImg preload src="/high-temp.png" alt="h-temp" />
-              <span>H: {{Math.round(currentWeather?.day.maxtemp_c)}}°C</span>
-            </div>
-            <div class="temp-detail">
-              <NuxtImg preload src="/low-temp.png" alt="l-temp" />
-              <span>L: {{Math.round(currentWeather?.day.mintemp_c)}}°C</span>
+            <div class="temp-detail-back">
+              <div class="temp-detail lg:mb-2">
+                <NuxtImg preload src="/high-temp.png" alt="h-temp" />
+                <span>H: {{Math.round(currentWeather?.day.maxtemp_c)}}°C</span>
+              </div>
+              <div class="temp-detail">
+                <NuxtImg preload src="/low-temp.png" alt="l-temp" />
+                <span>L: {{Math.round(currentWeather?.day.mintemp_c)}}°C</span>
+              </div>
             </div>
           </div>
         </div>
         <!-- Divider -->
         <hr class="w-full mt-10 mb-6">
         <!-- Current date -->
-        <div class="current-date">
+        <div class="current-date hidden lg:block">
           <span>{{currentWeather?.day === undefined ? 'Date Today' : 'Date: ' + currentWeather?.forecastDate.slice(0, -5)}}</span>
           <div class="flex gap-5">
             <span>{{currentWeather?.day === undefined ? dayOfWeek : currentWeather?.forecastDayOfWeek}}</span>
@@ -145,16 +151,16 @@
         </div>
         <!-- Current weather details -->
         <div class="weather-details">
-          <span>Weather Details</span>
-          <div class="detail-item mt-5">
+          <span class="hidden lg:block">Weather Details</span>
+          <div class="detail-item border-b border-[#333C4F] lg:border-none !rounded-b-none lg:!rounded-xl mt-3 lg:mt-5">
             <NuxtImg preload src="/information.png" alt="cloud" style="width: 35px" />
             <span class="detail-item-span">{{currentWeather?.day === undefined ? currentWeather?.condition.text : currentWeather?.day?.condition?.text}}</span>
           </div>
-          <div class="detail-item mt-3">
+          <div class="detail-item border-b border-[#333C4F] lg:border-none !rounded-none lg:!rounded-xl lg:mt-3">
             <NuxtImg preload src="/humidity.png" alt="humidity" />
             <span class="detail-item-span">Humidity - {{currentWeather?.day === undefined ? currentWeather?.humidity : currentWeather?.day?.avghumidity}}%</span>
           </div>
-          <div class="detail-item mt-3">
+          <div class="detail-item !rounded-t-none rounded-b-xl lg:!rounded-xl lg:mt-3">
             <NuxtImg preload src="/wind.png" alt="wind" />
             <span class="detail-item-span">Wind - {{currentWeather?.day === undefined ? Math.round(currentWeather?.wind_kph) : Math.round(currentWeather?.day?.maxwind_kph)}}km/h</span>
           </div>
@@ -316,18 +322,12 @@
       themeMode.value = localStorage.getItem('themeMode');
     } else localStorage.setItem('themeMode', 'light-mode');
 
-    permissionStatus.value = await navigator.permissions.query({ name: 'geolocation' });
+    // Update current date
+    const interval = setInterval(() => {
+      getDateByCity();
+    }, 1000);
 
-    if(permissionStatus.value.state === 'granted') {
-      await defineUserLocation();
-
-      // Update current date
-      const interval = setInterval(() => {
-        getDateByCity();
-      }, 1000);
-
-      onUnmounted(() => clearInterval(interval));
-    }
+    onUnmounted(() => clearInterval(interval));
   });
 
   // Theme changer
@@ -366,14 +366,24 @@
   }
 
   // Current user location
-  const defineUserLocation = async () => {
-    try {
-      const pos = await getLocation();
-      await getWeather(pos.latitude + ',' + pos.longitude);
-    } catch(error) {
-      console.error('Cannot find user position and city:', error);
-    }
-  }
+  // const defineUserLocation = async () => {
+  //   try {
+  //     const pos = await getLocation();
+  //     await getWeather(pos.latitude + ',' + pos.longitude);
+  //   } catch(error) {
+  //     console.error('Cannot find user position and city:', error);
+  //   }
+  // }
+
+  const isFocused = ref(false);
+
+  const handleFocus = () => {
+    isFocused.value = true;
+  };
+
+  const handleBlur = () => {
+    isFocused.value = false;
+  };
 
   // Current weather
   const getWeather = async (city) => {
