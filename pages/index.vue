@@ -294,7 +294,6 @@
   import { getLocation } from "~/services/UserLocationService.js";
 
   import { search } from "~/services/SearchCityService.js";
-  import { debounce } from "lodash";
 
   const permissionStatus = ref('');
   const currentDate = ref(moment());
@@ -405,14 +404,14 @@
   };
 
   // Search
-  const searchCities = debounce(() => {
+  const searchCities = () => {
     // Checking for length to be more than 3
     if(searchQuery.value.length >= 3) {
       citiesList = search(searchQuery.value);
     } else {
       citiesList = [];
     }
-  });
+  };
 
   // Swiper configuration
   const weeklySwiper = ref(null);
