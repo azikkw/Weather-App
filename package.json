@@ -3,9 +3,10 @@
   "private": true,
   "type": "module",
   "scripts": {
-    "build": "nuxt build",
-    "dev": "nuxt dev",
-    "generate": "nuxt generate",
+    "dev": "node_modules/.bin/nuxt",
+    "build": "node_modules/.bin/nuxt build",
+    "start": "node_modules/.bin/nuxt start",
+    "generate": "node_modules/.bin/nuxt generate",
     "preview": "nuxt preview",
     "postinstall": "nuxt prepare"
   },
