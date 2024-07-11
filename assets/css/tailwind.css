@@ -10,10 +10,10 @@
 
 /* Geolocation permission status results */
 .access-status {
-    @apply w-full h-screen flex flex-col justify-center items-center;
+    @apply w-full h-screen flex flex-col justify-center items-center p-5;
 }
 .access-status.st-denied {
-    @apply justify-start pt-[100px];
+    @apply justify-start p-5 lg:pt-[100px];
 }
 .access-status img {
     @apply w-[120px] h-[120px] mb-3;
@@ -22,13 +22,13 @@
     @apply text-[28px] mb-5;
 }
 .access-status span:nth-child(3) {
-    @apply text-[17px] mb-[14px] opacity-80;
+    @apply text-[17px] mb-[14px] opacity-75 text-center;
 }
 .access-status button {
-    @apply w-[190px] h-[52px] bg-blue-500 text-[18px] rounded-[26px] text-white hover:bg-blue-400 transition-all duration-200;
+    @apply w-[75%] lg:w-[190px] h-[60px] lg:h-[52px] bg-blue-500 text-[18px] rounded-[30px] text-white hover:bg-blue-400 transition-all duration-200;
 }
 .give-access {
-    @apply text-[15px] absolute bottom-0 mb-[50px] opacity-75 text-center;
+    @apply w-full lg:w-[500px] text-[15px] absolute bottom-0 mb-[50px] opacity-75 text-center;
 }
 .give-access span {
     @apply !text-[15px] font-medium underline;

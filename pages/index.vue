@@ -23,7 +23,7 @@
       </ul>
     </div>
     <p class="give-access">
-      If you want your location to be determined automatically, then give <br> access to <span>"Privacy and Security"</span> in the browser settings.
+      If you want your location to be determined automatically, then give access to <span>"Privacy and Security"</span> in the browser settings.
     </p>
   </div>
   <div v-else-if="permissionStatus?.state === 'granted' && !weeklyWeather" :class="['loading-page', themeMode]">
@@ -406,6 +406,7 @@
 
   // Search
   const searchCities = debounce(() => {
+    // Checking for length to be more than 3
     if(searchQuery.value.length >= 3) {
       citiesList = search(searchQuery.value);
     } else {
