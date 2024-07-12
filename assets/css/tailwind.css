@@ -10,45 +10,32 @@
 
 /* Welcome page for user first interaction with website */
 .first-page {
-    @apply w-full h-screen flex flex-col items-center p-[15px] pt-[50px] lg:pt-[100px] transition-all duration-300;
+    @apply w-full h-screen flex flex-col justify-center lg:justify-start items-center p-[15px] pb-[120px] lg:pb-0 lg:pt-[100px] transition-all duration-300;
 }
 .first-title {
-    @apply mb-[30px] text-[28px];
+    @apply mb-[30px] text-center;
+}
+.first-title p {
+    @apply text-[28px] mb-2;
+}
+.first-title span {
+    @apply text-[16px]
 }
 .first-title img {
     @apply w-[120px] h-[120px] mx-auto mb-3;
-}
-.first-page.is-focused {
-    @apply pt-[15px] lg:items-center lg:pt-[100px];
-}
-.first-page.is-focused .first-title {
-    @apply w-full lg:w-fit flex lg:block justify-center items-center gap-[10px] text-[23px] lg:text-[28px] mb-5 lg:mb-[30px];
-}
-.first-page.is-focused img {
-    @apply w-[35px] h-[35px] m-0 lg:w-[120px] lg:h-[120px] lg:mx-auto lg:mb-3;
-}
-.first-page .search-result {
-    @apply relative mt-3 overflow-x-hidden;
-}
-.first-page .search-result li {
-    @apply w-full;
-}
-.first-page.is-focused .search-result {
-    @apply max-h-screen lg:max-h-[290px] border-none lg:border-[#d6d6d6] bg-transparent lg:bg-[#fbfbfb] p-0 lg:pt-[10px] lg:px-[24px] lg:pb-[5px];
 }
 
 /* Loading page */
 .loading-page {
     @apply w-full h-screen flex flex-col justify-center items-center text-[17px];
 }
-.loading-page.dark-mode,
 .first-page.dark-mode {
-    @apply bg-[#282f3e] text-[#dcdcdc];
+    @apply bg-[#1D222D] text-[#dcdcdc];
 }
 
 /* Background */
 .background-page {
-    @apply w-full h-screen font-satoshi font-normal bg-background-color overflow-x-hidden;
+    @apply w-full h-auto lg:h-screen font-satoshi font-normal bg-background-color overflow-x-hidden;
 }
 /* Dark mode options */
 .background-page.dark-mode {
@@ -60,7 +47,10 @@ header {
     @apply relative w-full h-fit lg:h-[110px] bg-white p-[15px] lg:py-0 lg:px-9 flex items-center justify-between;
 }
 /* Dark mode options */
-.background-page.dark-mode header {
+.background-page.dark-mode header,
+.background-page.dark-mode .github,
+.background-page.dark-mode .search.is-focused,
+.first-page.dark-mode .search.is-focused {
     @apply bg-[#1D222D];
 }
 .background-page.dark-mode .current-weather-back {
@@ -88,13 +78,34 @@ header {
 
 /* Search */
 .search {
-    @apply  lg:block w-full lg:w-[400px] lg:mr-[20px];
+    @apply hidden lg:block w-full lg:w-[400px] lg:mr-[20px] relative;
+}
+.search.change-loc {
+    @apply block;
+}
+.search.is-focused {
+    @apply block min-h-screen absolute left-0 top-0 z-10 bg-white pt-5 px-[12px];
+}
+.search.is-focused body {
+    @apply overflow-hidden;
 }
 .search-input-back {
-    @apply relative;
+    @apply relative
 }
-.search input {
+.search.is-focused .search-input-back,
+.search.change-loc .search-input-back {
+    @apply flex items-center gap-[12px];
+}
+.search-input {
     @apply w-full h-[50px] rounded-[24px] border border-[#d6d6d6] bg-transparent px-[66px] text-[15.5px] focus:outline-none focus:border-blue-400;
+}
+.search.is-focused .search-input,
+.search.change-loc .search-input {
+    @apply h-[36px] rounded-[10px] px-[45px];
+}
+.background-page.dark-mode .search.is-focused .search-input,
+.background-page.dark-mode .search.change-loc .search-input {
+    @apply border-[#FFFFFF2D] focus:border-blue-400;
 }
 .search-input:focus + .icon-wrapper .iconify {
     @apply text-blue-400;
@@ -102,16 +113,28 @@ header {
 .icon-wrapper {
     @apply h-[20px] absolute left-0 top-1/2 -translate-y-1/2 ml-9;
 }
+.search.is-focused .icon-wrapper,
+.search.change-loc .icon-wrapper {
+    @apply ml-4;
+}
 .icon-wrapper .iconify {
-    @apply text-[#aaadb8];
+    @apply size-[20px] text-[#aaadb8];
 }
 .search-result {
-    @apply w-full max-h-[290px] overflow-y-auto absolute top-0 left-0 rounded-2xl z-10 border border-[#d6d6d6] bg-[#fbfbfb] mt-[90px] pt-[10px] px-[24px] pb-[5px];
+    @apply w-full max-h-[290px] overflow-y-auto absolute top-0 left-0 rounded-2xl z-10 border border-[#d6d6d6] bg-[#fbfbfb] mt-[60px] pt-[10px] px-[24px] pb-[5px];
+}
+.search.is-focused .search-result {
+    @apply max-h-max relative mt-[15px] p-0 border-none bg-transparent overflow-x-hidden;
 }
 /* Dark mode options */
 .background-page.dark-mode .search-result,
-.access-status.st-denied.dark-mode .search-result {
-    @apply bg-[#252b39] border-[#FFFFFF2D]
+.access-status.st-denied.dark-mode .search-result,
+.first-page.dark-mode .search-result {
+    @apply bg-[#252b39] border-[#FFFFFF2D];
+}
+.background-page.dark-mode .search.is-focused .search-result,
+.first-page.dark-mode .search.is-focused .search-result {
+    @apply bg-transparent;
 }
 .search-result::-webkit-scrollbar,
 .current-weather-back::-webkit-scrollbar {
@@ -136,8 +159,9 @@ header {
     @apply h-[40px] flex justify-between items-center border-b border-gray-300 pl-[5px] cursor-pointer hover:border-[#b3b3b3];
 }
 .background-page.dark-mode .search-result li,
-.access-status.st-denied.dark-mode .search-result li {
-    @apply border-[#FFFFFF2D];
+.access-status.st-denied.dark-mode .search-result li,
+.first-page.dark-mode .search-result li {
+    @apply border-[#FFFFFF2D] hover:border-[#FFFFFF50];
 }
 .search-result li:last-child {
     @apply border-none;
@@ -188,12 +212,12 @@ header {
 
 /* Bottom side with all weather info */
 .weather-dashboard {
-    @apply w-full h-auto lg:h-[calc(100%-110px)] block lg:flex;
+    @apply w-full lg:h-[calc(100%-110px)] block lg:flex;
 }
 
 /* Current weather information back */
 .current-weather-back {
-    @apply w-full lg:w-[390px] bg-transparent lg:bg-white h-full lg:overflow-y-auto flex flex-col px-[15px] pt-[100px] lg:pt-5 lg:px-9;
+    @apply w-full lg:w-[390px] bg-transparent lg:bg-white lg:h-full lg:overflow-y-auto flex flex-col px-[15px] pt-[100px] lg:pt-5 lg:px-9;
 }
 
 /* Current weather */
@@ -253,11 +277,11 @@ hr {
     @apply text-[16.5px] font-medium opacity-55;
 }
 .detail-item {
-    @apply w-full h-[60px] bg-[#e9f3fd] flex items-center px-6 gap-4 rounded-xl;
+    @apply w-full h-[60px] bg-white lg:bg-[#e9f3fd] border-[#EDEDED] flex items-center px-6 gap-4 rounded-xl;
 }
 /* Dark mode options */
 .background-page.dark-mode .detail-item {
-    @apply bg-[#282f3e];
+    @apply bg-[#282f3e] border-[#333C4F];
 }
 .detail-item img {
     @apply w-[35px];
@@ -268,7 +292,7 @@ hr {
 
 /* Right sight, weather suggestions */
 .weather-suggestions {
-    @apply w-full lg:w-[calc(100%-390px)] p-[15px] py-8 lg:pl-10 lg:py-12 flex flex-col justify-between lg:overflow-y-auto;
+    @apply w-full lg:w-[calc(100%-390px)] p-[15px] py-8 lg:pl-10 lg:pr-0 lg:py-12 flex flex-col justify-between lg:overflow-y-auto;
 }
 .weather-suggestions::-webkit-scrollbar {
     @apply w-[7px];
@@ -311,13 +335,19 @@ hr {
     @apply w-full;
 }
 .forecast-swiper {
-    margin-bottom: 50px;
+    @apply mb-8 lg:mb-[50px];
 }
 .swiper-wrapper {
     @apply !block lg:!flex pt-[10px] lg:pt-5 items-end;
 }
+.additions-swiper .swiper-wrapper {
+    @apply !grid !grid-cols-2 lg:!flex gap-[12px] lg:gap-0;
+}
 .swiper-slide {
     @apply !w-full lg:!w-fit !h-fit;
+}
+.additions-swiper .swiper-wrapper .swiper-slide {
+    @apply lg:!w-fit !h-fit;
 }
 .swiper-slide:last-child {
     @apply lg:mr-[40px];
@@ -327,17 +357,20 @@ hr {
 .weather-card {
     @apply lg:w-[160px] h-[40px] lg:h-[185px]
     flex flex-row lg:flex-col items-center lg:items-start justify-between bg-white box-content
-    cursor-pointer rounded-none lg:rounded-[22px] py-[15px] lg:py-5 px-[25px]
-    border-b border-[#333C4F] lg:border-none
+    cursor-pointer rounded-none lg:rounded-[22px] py-[10px] lg:py-5 px-[25px]
+    border-b border-[#EDEDED] lg:border-none
     lg:transition-transform lg:duration-300;
 }
 .swiper-wrapper .swiper-slide:first-child .weather-card {
     @apply rounded-t-xl lg:rounded-[22px];
 }
 .swiper-wrapper .swiper-slide:last-child .weather-card {
-    @apply rounded-b-xl lg:rounded-[22px];
+    @apply rounded-b-xl lg:rounded-[22px] border-none;
 }
 /* Dark mode options */
+.background-page.dark-mode .weather-card {
+    @apply border-[#333C4F];
+}
 .background-page.dark-mode .weather-card,
 .background-page.dark-mode .sun-rise-set-back,
 .background-page.dark-mode .add-detail {
@@ -348,50 +381,54 @@ hr {
     @apply lg:-translate-y-2;
 }
 .weather-card > span:first-child {
-    @apply text-[18px] font-medium lg:font-[600];
+    @apply w-[60px] lg:w-auto text-[17px] lg:text-[18px] font-medium lg:font-[600];
 }
 .weather-card img,
 .weather-card.today img {
-    @apply w-[40px] lg:w-[125px] object-contain my-1.5 mx-auto;
+    @apply w-[38px] lg:w-[125px] object-contain lg:my-1.5 lg:mx-auto;
 }
-.weather-card.today img {
-    @apply w-[145px];
+.weather-card div {
+    @apply w-[140px] flex justify-end lg:w-auto lg:mx-auto;
 }
 .weather-card div span {
-    @apply text-[19px] lg:text-[22px];
-}
-
-.additional-details {
-    @apply flex items-end gap-5
+    @apply text-[18px] lg:text-[22px];
 }
 
 /* Sunrise & Sunset */
+.additions-swiper .swiper-wrapper .swiper-slide:first-child {
+    @apply col-span-2;
+}
 .sun-rise-set-back {
-    @apply w-fit h-[120px] rounded-[22px] gap-[70px] px-[35px] flex items-center bg-white font-medium;
+    @apply w-full lg:w-fit h-[120px] rounded-2xl lg:rounded-[22px] lg:gap-[70px] px-[20px] lg:px-[35px] flex items-center justify-between lg:justify-center bg-white font-medium;
 }
 .rise-set-detail {
-    @apply flex items-center gap-[15px];
+    @apply flex items-center gap-[10px] lg:gap-[15px];
 }
 .rise-set-detail-text {
-    @apply flex flex-col mt-2 gap-0.5;
+    @apply flex flex-col mt-2 lg:gap-0.5;
 }
 .rise-set-detail-text span:last-child {
     @apply text-[17px];
 }
 .rise-set-detail img {
-    @apply w-[55px] object-contain;
+    @apply w-[50px] lg:w-[55px] object-contain;
 }
 
 /* Additional detail */
 .add-detail {
-    @apply w-fit h-[120px] py-5 pr-[15px] pl-[25px] rounded-[22px] flex bg-white gap-2.5 font-medium;
+    @apply w-full lg:w-fit h-[120px] py-5 pr-[12px] pl-[18px] lg:pr-[15px] lg:pl-[25px] rounded-2xl lg:rounded-[22px] flex justify-between lg:justify-center bg-white lg:gap-2.5 font-medium;
 }
 .add-detail-text {
     @apply flex flex-col;
 }
 .add-detail-text span:last-child {
-    @apply text-[22px] font-[600];
+    @apply text-[20px] lg:text-[22px] font-[600];
 }
 .add-detail img {
-    @apply w-[60px] object-contain -mb-[30px];
+    @apply w-[52px] lg:w-[60px] object-contain -mb-[35px] lg:-mb-[30px];
+}
+
+/* GitHub */
+.github {
+    @apply w-full py-[20px] text-[18px] flex lg:hidden justify-center opacity-80 gap-2 bg-white font-medium mt-3;
 }
