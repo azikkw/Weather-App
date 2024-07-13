@@ -25,7 +25,8 @@
     const weatherInfo = {
       forecastDate: sendForecastDate(weather?.date_epoch),
       forecastDayOfWeek: sendForecastDayOfWeek(weather?.date_epoch),
-      index: index
+      index: index,
+      is_day: 1
     }
     emit('selectedForecast', weatherInfo);
   };

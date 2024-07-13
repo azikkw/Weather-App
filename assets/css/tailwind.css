@@ -84,7 +84,7 @@ header {
     @apply block;
 }
 .search.is-focused {
-    @apply block min-h-screen absolute left-0 top-0 z-10 bg-white pt-5 px-[12px];
+    @apply block min-h-screen absolute left-0 top-0 z-30 bg-white pt-5 px-[12px];
 }
 .search.is-focused body {
     @apply overflow-hidden;

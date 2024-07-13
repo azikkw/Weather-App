@@ -98,7 +98,7 @@
           <div class="block lg:hidden sm:absolute -top-[20px] z-10 text-[18.5px] mb-[15px] opacity-75 -mt-[25px]">
             {{currentWeather?.forecastDayOfWeek}}, {{currentWeather?.forecastDate.slice(0, -5)}}
           </div>
-          <WeatherIcon :src="weatherImageMap[currentWeather?.day.condition.code]" />
+          <WeatherIcon :code="currentWeather?.day.condition.code" :isDay="currentWeather.is_day" />
           <div>
             <span class="current-temp">
               <span class="text-lg font-medium -mb-3 opacity-70">Avg:</span>
@@ -398,10 +398,11 @@
   const getWeather = async (city) => {
     try {
       weeklyWeather.value = await $fetch(`/api/weather/${city}`);
+
       // Checking to be not null
       if(weeklyWeather.value) {
+        // Adding hourly forecast to current weather
         currentWeather.value = {...weeklyWeather?.value.current, hour: weeklyWeather?.value.forecast.forecastday[0].hour};
-        console.log(currentWeather.value);
         handleBlur(); // Disabling search window
         getDateByCity(); // Finding date for found city
       } else if(!weeklyWeather.value || !weeklyWeather.value.current || !weeklyWeather.value.forecast.forecastday) {
