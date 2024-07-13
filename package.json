@@ -15,7 +15,6 @@
     "@nuxt/image": "^1.7.0",
     "date-fns": "^3.6.0",
     "moment-timezone": "^0.5.45",
-    "nitropack": "^2.8.1",
     "nuxt": "^3.12.2",
     "nuxt-swiper": "^1.2.2",
     "swiper": "^11.1.4",
