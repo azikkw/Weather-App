@@ -1,35 +1,38 @@
 <template>
+  <!-- Welcome page -->
   <div v-if="welcome" :class="['first-page', themeMode]">
     <div class="first-title">
-      <img src="/assets/images/weather-app.png" alt="logo" />
+      <img src="/images/weather-app.png" alt="logo" />
       <p class="font-bold">Weather Forecast</p>
       <span>Welcome! Enter the city you are in to view the weather forecast.</span>
     </div>
-    <button class="w-[200px] h-[58px] bg-blue-500 rounded-[29px] text-lg text-white font-medium lg:hidden" @click="handleFocus" aria-label="Start Btn">Get started</button>
     <!-- Search -->
+    <button class="w-[200px] h-[58px] bg-blue-500 rounded-[29px] text-lg text-white font-medium sm:hidden" @click="handleFocus" aria-label="Start Btn">Get started</button>
     <div class="search" :class="{'is-focused': isFocused}">
       <div class="search-input-back">
         <input ref="searchInput" type="text" v-model="searchQuery" @keyup="searchCities" placeholder="Search City...." class="search-input"/>
         <span class="icon-wrapper mt-[0.5px]">
           <Icon name="ph:magnifying-glass" size="20px" />
         </span>
-        <p class="text-[18px] lg:hidden" @click="handleBlur">Cancel</p>
+        <p class="text-[18px] sm:hidden" @click="handleBlur">Cancel</p>
       </div>
       <ul class="search-result" :style="{ display: citiesList.length > 0 ? 'block' : 'none' }">
-        <li v-for="city in citiesList" @click="getStarted(city)">
-          {{city}} <Icon class="-mr-2 opacity-80" name="material-symbols-light:chevron-right-rounded" size="28px" />
+        <li v-for="city in citiesList" @click="getStarted(city.name)">
+          <p>{{city.name}}, <span class="opacity-70">{{city.country}}</span></p> <Icon class="-mr-2 opacity-80" name="material-symbols-light:chevron-right-rounded" size="28px" />
         </li>
       </ul>
     </div>
   </div>
+  <!-- Loading page -->
   <div v-else-if="!weeklyWeather" class="loading-page">
     <Icon name="meteocons:compass-fill" size="70" />
   </div>
+  <!-- Main page -->
   <div v-else :class="['background-page', themeMode]">
     <header>
       <!-- Logotype -->
       <div class="logo">
-        <img src="/assets/images/weather-app.png" alt="logo" />
+        <img src="/images/weather-app.png" alt="logo" />
         <span class="font-bold">Weather</span>
       </div>
       <!-- Current location -->
@@ -38,21 +41,21 @@
         <span>{{ weeklyWeather?.location.name }}</span>
       </div>
       <!-- Search -->
-      <div class="search find-city" :class="{'is-focused': isFocused}">
+      <div class="search" :class="{'is-focused': isFocused}">
         <div class="search-input-back">
           <input ref="searchInput" type="text" v-model="searchQuery" @keyup="searchCities" placeholder="Search City...." class="search-input" />
           <span class="icon-wrapper">
             <Icon name="ph:magnifying-glass" />
           </span>
-          <p class="text-[18px] lg:hidden" @click="handleBlur">Cancel</p>
+          <p class="text-[18px] sm:hidden" @click="handleBlur">Cancel</p>
         </div>
         <ul class="search-result" :style="{ display: citiesList.length > 0 ? 'block' : 'none' }">
-          <li v-for="city in citiesList" @click="findCity(city)">
-            {{city}} <Icon class="-mr-2 opacity-80" name="material-symbols-light:chevron-right-rounded" size="28px" />
+          <li v-for="city in citiesList" @click="findCity(city.name)">
+            <p>{{city.name}}, <span class="opacity-70">{{city.country}}</span></p> <Icon class="-mr-2 opacity-80" name="material-symbols-light:chevron-right-rounded" size="28px" />
           </li>
         </ul>
       </div>
-      <div @click="handleFocus" class="mt-2 mr-5 lg:hidden">
+      <div @click="handleFocus" class="absolute right-[130px] top-1/2 -translate-y-1/2 mt-1 sm:hidden">
         <Icon name="ph:magnifying-glass" size="30px" />
       </div>
       <!-- Theme changer -->
@@ -75,53 +78,27 @@
       <div class="current-weather-back">
         <!-- For current weather -->
         <div v-if="currentWeather?.day === undefined" class="current-weather">
-          <img v-if="currentWeather?.condition.code === 1000" src="/assets/images/sun.png" alt="weather" class="current-weather-icon" />
-          <img v-else-if="currentWeather?.condition.code === 1003 || currentWeather?.condition.code === 1006" src="/assets/images/cloudy.png" alt="weather" class="current-weather-icon" />
-          <img v-else-if="currentWeather?.condition.code > 1006 && currentWeather?.condition.code < 1063" src="/assets/images/clouds.png" alt="weather" class="current-weather-icon" />
-          <img v-else-if="currentWeather?.condition.code === 1035 || currentWeather?.condition.code === 1147" src="/assets/images/cloud.png" alt="weather" class="current-weather-icon" />
-          <img v-else-if="currentWeather?.condition.code === 1063 || currentWeather?.condition.code === 1072" src="/assets/images/rain.png" alt="weather" class="current-weather-icon" />
-          <img v-else-if="currentWeather?.condition.code >= 1150 && currentWeather?.condition.code <= 1207" src="/assets/images/rain.png" alt="weather" class="current-weather-icon" />
-          <img v-else-if="currentWeather?.condition.code >= 1240 && currentWeather?.condition.code <= 1246" src="/assets/images/rain.png" alt="weather" class="current-weather-icon" />
-          <img v-else-if="currentWeather?.condition.code >= 1261 && currentWeather?.condition.code <= 1264" src="/assets/images/rain.png" alt="weather" class="current-weather-icon" />
-          <img v-else-if="currentWeather?.condition.code === 1066 || currentWeather?.condition.code === 1069 || currentWeather?.condition.code === 1114 || currentWeather?.condition.code === 1117" src="/assets/images/snow.png" alt="weather" class="current-weather-icon" />
-          <img v-else-if="currentWeather?.condition.code >= 1210 && currentWeather?.condition.code <= 1237" src="/assets/images/snow.png" alt="weather" class="current-weather-icon" />
-          <img v-else-if="currentWeather?.condition.code >= 1210 && currentWeather?.condition.code <= 1237" src="/assets/images/snow.png" alt="weather" class="current-weather-icon" />
-          <img v-else-if="currentWeather?.condition.code >= 1252 && currentWeather?.condition.code <= 1258" src="/assets/images/snow.png" alt="weather" class="current-weather-icon" />
-          <img v-else-if="currentWeather?.condition.code >= 1279 && currentWeather?.condition.code <= 1282" src="/assets/images/snow.png" alt="weather" class="current-weather-icon" />
-          <img v-else-if="currentWeather?.condition.code === 1087 || currentWeather?.condition.code === 1273 || currentWeather?.condition.code === 1276" src="/assets/images/thunder.png" alt="weather" class="current-weather-icon" />
+          <WeatherIcon :code="currentWeather?.condition.code" :isDay="currentWeather.is_day" />
           <div>
             <span class="current-temp">{{Math.round(currentWeather?.temp_c)}}°C</span>
             <div class="temp-detail-back">
               <div class="temp-detail lg:mb-2">
-                <img src="/assets/images/high-temp.png" alt="h-temp" />
-                <span>H: {{Math.round(weeklyWeather?.forecast.forecastday[0].day.maxtemp_c)}}°C</span>
+                <img src="/images/high-temp.png" alt="h-temp" />
+                <span>H: {{Math.round(weeklyWeather?.forecast?.forecastday[0].day.maxtemp_c)}}°C</span>
               </div>
               <div class="temp-detail">
-                <img src="/assets/images/low-temp.png" alt="l-temp" />
-                <span>L: {{Math.round(weeklyWeather?.forecast.forecastday[0].day.mintemp_c)}}°C</span>
+                <img src="/images/low-temp.png" alt="l-temp" />
+                <span>L: {{Math.round(weeklyWeather?.forecast?.forecastday[0].day.mintemp_c)}}°C</span>
               </div>
             </div>
           </div>
         </div>
         <!-- For forecast weather -->
         <div v-else class="current-weather">
-          <div class="block lg:hidden text-[18.5px] mb-[15px] opacity-75 -mt-[25px]">
+          <div class="block lg:hidden sm:absolute -top-[20px] z-10 text-[18.5px] mb-[15px] opacity-75 -mt-[25px]">
             {{currentWeather?.forecastDayOfWeek}}, {{currentWeather?.forecastDate.slice(0, -5)}}
           </div>
-          <img v-if="currentWeather?.day.condition.code === 1000" src="/assets/images/sun.png" alt="weather" class="current-weather-icon" />
-          <img v-else-if="currentWeather?.day.condition.code === 1003 || currentWeather?.day.condition.code === 1006" src="/assets/images/cloudy.png" alt="weather" class="current-weather-icon" />
-          <img v-else-if="currentWeather?.day.condition.code > 1006 && currentWeather?.day.condition.code < 1063" src="/assets/images/clouds.png" alt="weather" class="current-weather-icon" />
-          <img v-else-if="currentWeather?.day.condition.code === 1035 || currentWeather?.day.condition.code === 1147" src="/assets/images/cloud.png" alt="weather" class="current-weather-icon" />
-          <img v-else-if="currentWeather?.day.condition.code === 1063 || currentWeather?.day.condition.code === 1072" src="/assets/images/rain.png" alt="weather" class="current-weather-icon" />
-          <img v-else-if="currentWeather?.day.condition.code >= 1150 && currentWeather?.day.condition.code <= 1207" src="/assets/images/rain.png" alt="weather" class="current-weather-icon" />
-          <img v-else-if="currentWeather?.day.condition.code >= 1240 && currentWeather?.day.condition.code <= 1246" src="/assets/images/rain.png" alt="weather" class="current-weather-icon" />
-          <img v-else-if="currentWeather?.day.condition.code >= 1261 && currentWeather?.day.condition.code <= 1264" src="/assets/images/rain.png" alt="weather" class="current-weather-icon" />
-          <img v-else-if="currentWeather?.day.condition.code === 1066 || currentWeather?.day.condition.code === 1069 || currentWeather?.day.condition.code === 1114 || currentWeather?.day.condition.code === 1117" src="/assets/images/snow.png" alt="weather" class="current-weather-icon" />
-          <img v-else-if="currentWeather?.day.condition.code >= 1210 && currentWeather?.day.condition.code <= 1237" src="/assets/images/snow.png" alt="weather" class="current-weather-icon" />
-          <img v-else-if="currentWeather?.day.condition.code >= 1210 && currentWeather?.day.condition.code <= 1237" src="/assets/images/snow.png" alt="weather" class="current-weather-icon" />
-          <img v-else-if="currentWeather?.day.condition.code >= 1252 && currentWeather?.day.condition.code <= 1258" src="/assets/images/snow.png" alt="weather" class="current-weather-icon" />
-          <img v-else-if="currentWeather?.day.condition.code >= 1279 && currentWeather?.day.condition.code <= 1282" src="/assets/images/snow.png" alt="weather" class="current-weather-icon" />
-          <img v-else-if="currentWeather?.day.condition.code === 1087 || currentWeather?.day.condition.code === 1273 || currentWeather?.condition.code === 1276" src="/assets/images/thunder.png" alt="weather" class="current-weather-icon" />
+          <WeatherIcon :src="weatherImageMap[currentWeather?.day.condition.code]" />
           <div>
             <span class="current-temp">
               <span class="text-lg font-medium -mb-3 opacity-70">Avg:</span>
@@ -129,11 +106,11 @@
             </span>
             <div class="temp-detail-back">
               <div class="temp-detail lg:mb-2">
-                <img src="/assets/images/high-temp.png" alt="h-temp" />
+                <img src="/images/high-temp.png" alt="h-temp" />
                 <span>H: {{Math.round(currentWeather?.day.maxtemp_c)}}°C</span>
               </div>
               <div class="temp-detail">
-                <img src="/assets/images/low-temp.png" alt="l-temp" />
+                <img src="/images/low-temp.png" alt="l-temp" />
                 <span>L: {{Math.round(currentWeather?.day.mintemp_c)}}°C</span>
               </div>
             </div>
@@ -152,22 +129,50 @@
         <!-- Current weather details -->
         <div class="weather-details">
           <span class="hidden lg:block">Weather Details</span>
-          <div class="detail-item border-b lg:border-none !rounded-b-none lg:!rounded-xl mt-3 lg:mt-5">
-            <img src="/assets/images/information.png" alt="cloud" style="width: 35px" />
+          <div class="detail-item border-b sm:border-none !rounded-b-none sm:!rounded-xl mt-3 lg:mt-5">
+            <img src="/images/information.png" alt="cloud" />
             <span class="detail-item-span">{{currentWeather?.day === undefined ? currentWeather?.condition.text : currentWeather?.day?.condition?.text}}</span>
           </div>
-          <div class="detail-item border-b lg:border-none !rounded-none lg:!rounded-xl lg:mt-3">
-            <img src="/assets/images/humidity.png" alt="humidity" />
+          <div class="detail-item border-b sm:border-none !rounded-none sm:!rounded-xl sm:mt-3">
+            <img src="/images/humidity.png" alt="humidity" />
             <span class="detail-item-span">Humidity - {{currentWeather?.day === undefined ? currentWeather?.humidity : currentWeather?.day?.avghumidity}}%</span>
           </div>
-          <div class="detail-item !rounded-t-none rounded-b-xl lg:!rounded-xl lg:mt-3">
-            <img src="/assets/images/wind.png" alt="wind" />
+          <div class="detail-item !rounded-t-none rounded-b-xl sm:!rounded-xl sm:mt-3">
+            <img src="/images/wind.png" alt="wind" />
             <span class="detail-item-span">Wind - {{currentWeather?.day === undefined ? Math.round(currentWeather?.wind_kph) : Math.round(currentWeather?.day?.maxwind_kph)}}km/h</span>
           </div>
         </div>
       </div>
       <!-- Right sight of the page -->
       <div class="weather-suggestions">
+        <!-- Hourly forecast -->
+        <div class="suggestion-item">
+          <!-- Title and navigation -->
+          <div class="title_nav">
+            Hourly Forecast
+            <div class="swiper-navigation">
+              <button class="hourly-nav-prev border border-black hover:opacity-70" aria-label="Weekly Prev Btn">
+                <Icon name="prime:arrow-up-right" size="21" class="opacity-85" />
+              </button>
+              <button class="hourly-nav-next bg-blue-500 hover:bg-blue-400" aria-label="Weekly Next Btn">
+                <Icon name="prime:arrow-up-right" size="21" class="text-white" />
+              </button>
+            </div>
+          </div>
+          <Swiper
+              ref="hourlySwiper"
+              :slides-per-view="'auto'"
+              :navigation="{ nextEl: '.hourly-nav-next', prevEl: '.hourly-nav-prev' }"
+              :free-mode="true"
+              :loop="true"
+              @swiper="onHourlySwiper"
+              class="hourly-swiper"
+          >
+            <SwiperSlide v-for="(weather, ind) in currentWeather.hour" :key="ind">
+              <HourlyCard :weather="weather" />
+            </SwiperSlide>
+          </Swiper>
+        </div>
         <!-- Weekly forecast -->
         <div class="suggestion-item">
           <!-- Title and navigation -->
@@ -187,12 +192,12 @@
             :slides-per-view="'auto'"
             :space-between="15"
             :navigation="{ nextEl: '.weekly-nav-next', prevEl: '.weekly-nav-prev' }"
-            :loop="true"
+            :free-mode="true"
             @swiper="onWeeklySwiper"
             class="forecast-swiper"
           >
-            <SwiperSlide v-for="ind in 7" :key="ind">
-              <WeatherCard :weather="weeklyWeather?.forecast.forecastday[ind - 1]" @selectedForecast="handleForecast" :index="ind - 1" />
+            <SwiperSlide v-for="(weather, ind) in weeklyWeather?.forecast.forecastday" :key="ind">
+              <WeatherCard :weather="weather" @selectedForecast="handleForecast" :index="ind" />
             </SwiperSlide>
           </Swiper>
         </div>
@@ -215,20 +220,21 @@
               :slides-per-view="'auto'"
               :space-between="15"
               :navigation="{ nextEl: '.additions-nav-next', prevEl: '.additions-nav-prev' }"
+              :free-mode="true"
               @swiper="onAdditionsSwiper"
               class="additions-swiper"
           >
             <SwiperSlide>
               <div class="sun-rise-set-back">
                 <div class="rise-set-detail">
-                  <img src="/assets/images/sunrise.png" alt="sunrise" />
+                  <img src="/images/sunrise.png" alt="sunrise" />
                   <div class="rise-set-detail-text">
                     <span class="opacity-75">Sunrise</span>
                     <span>{{currentWeather?.day === undefined ? weeklyWeather?.forecast.forecastday[0].astro.sunrise : currentWeather?.astro.sunrise}}</span>
                   </div>
                 </div>
                 <div class="rise-set-detail">
-                  <img src="/assets/images/sunset.png" alt="sunset" />
+                  <img src="/images/sunset.png" alt="sunset" />
                   <div class="rise-set-detail-text">
                     <span class="opacity-75">Sunset</span>
                     <span>{{currentWeather?.day === undefined ? weeklyWeather?.forecast.forecastday[0].astro.sunset : currentWeather?.astro.sunset}}</span>
@@ -242,7 +248,7 @@
                   <span class="opacity-75">Feels like</span>
                   <span>{{Math.round(currentWeather?.feelslike_c)}}°C</span>
                 </div>
-                <img src="/assets/images/thermometer.png" alt="thermometer" />
+                <img src="/images/thermometer.png" alt="thermometer" />
               </div>
             </SwiperSlide>
             <SwiperSlide>
@@ -251,7 +257,7 @@
                   <span class="opacity-75">{{currentWeather?.day === undefined ? 'Precipitation' : 'Avg. Precipitation'}}</span>
                   <span>{{currentWeather?.day === undefined ? Math.round(currentWeather?.precip_mm) : Math.round(currentWeather?.day.totalprecip_mm)}}mm</span>
                 </div>
-                <img src="/assets/images/precipitation.png" alt="precipitation" />
+                <img src="/images/precipitation.png" alt="precipitation" />
               </div>
             </SwiperSlide>
             <SwiperSlide>
@@ -260,7 +266,7 @@
                   <span class="opacity-75">{{currentWeather?.day === undefined ? 'UV Index' : 'Avg. UV Index'}}</span>
                   <span>{{currentWeather?.day === undefined ? Math.round(currentWeather?.uv) : Math.round(currentWeather?.day.uv)}}</span>
                 </div>
-                <img src="/assets/images/uv.png" alt="uv" />
+                <img src="/images/uv.png" alt="uv" />
               </div>
             </SwiperSlide>
             <SwiperSlide>
@@ -269,7 +275,7 @@
                   <span class="opacity-75">{{currentWeather?.day === undefined ? 'Visibility' : 'Avg. Visibility'}}</span>
                   <span>{{currentWeather?.day === undefined ? Math.round(currentWeather?.vis_km) : Math.round(currentWeather?.day.avgvis_km)}}km</span>
                 </div>
-                <img src="/assets/images/visibility.png" alt="visibility" />
+                <img src="/images/visibility.png" alt="visibility" />
               </div>
             </SwiperSlide>
             <SwiperSlide>
@@ -278,7 +284,7 @@
                   <span class="opacity-75">{{currentWeather?.day === undefined ? 'Pressure' : 'Avg. Pressure'}}</span>
                   <span>{{currentWeather?.day === undefined ? Math.round(currentWeather?.pressure_in) : Math.round(currentWeather?.hour[10].pressure_in)}} in</span>
                 </div>
-                <img src="/assets/images/pressure.png" alt="pressure" />
+                <img src="/images/pressure.png" alt="pressure" />
               </div>
             </SwiperSlide>
           </Swiper>
@@ -300,13 +306,15 @@
 
   import SwiperCore from "swiper";
   import { Swiper, SwiperSlide } from "swiper/vue";
-  import { Navigation, Pagination } from "swiper/modules";
+  import { Navigation, FreeMode } from "swiper/modules";
   import "swiper/swiper-bundle.css";
 
   import { search } from "~/services/SearchCityService.js";
+  import {weatherImageMap} from "~/types/weatherImage.js";
+  import HourlyCard from "~/components/HourlyCard.vue";
 
-  const location = ref(null);
   const welcome = ref(false);
+  const themeMode = ref(null);
 
   const currentDate = ref(moment());
 
@@ -318,28 +326,15 @@
   // Search values
   let citiesList = ref([]);
   const searchQuery = ref('');
-
-  const themeMode = ref(null);
-
-  // Search conditions
   const searchInput = ref(null);
   const isFocused = ref(false);
 
   // For swiper configuration
-  SwiperCore.use([Navigation]);
+  SwiperCore.use([Navigation, FreeMode]);
 
   onMounted(async () => {
-    // Configuring theme
-    if(localStorage.getItem('themeMode') !== null) {
-      themeMode.value = localStorage.getItem('themeMode');
-    } else localStorage.setItem('themeMode', 'light-mode');
-
-    location.value = localStorage.getItem('location');
-    if(location.value) {
-      await getWeather(location.value);
-    } else {
-      welcome.value = true;
-    }
+    setTheme(); // Configuring theme
+    await getLocation(); // Defining location
 
     // Update current date
     const interval = setInterval(() => {
@@ -349,12 +344,28 @@
     onUnmounted(() => clearInterval(interval));
   });
 
+  // Set theme from local storage value
+  const setTheme = () => {
+    if(localStorage.getItem('themeMode') !== null) {
+      themeMode.value = localStorage.getItem('themeMode');
+    } else localStorage.setItem('themeMode', 'light-mode');
+  }
   // Theme changer
   const changeThemeMode = (mode) => {
     if(mode === "dark-mode") themeMode.value = mode;
     else themeMode.value = mode;
 
     localStorage.setItem('themeMode', mode);
+  }
+
+  // Finding location (from local storage)
+  const getLocation = async () => {
+    const location = localStorage.getItem('location');
+    if(location) {
+      await getWeather(location);
+    } else {
+      welcome.value = true;
+    }
   }
 
   // Date configurations
@@ -383,16 +394,18 @@
     localStorage.setItem('location', city);
     await getWeather(city);
   }
-  // Current weather
+  // Fetch current weather, weekly forecast
   const getWeather = async (city) => {
     try {
       weeklyWeather.value = await $fetch(`/api/weather/${city}`);
-
       // Checking to be not null
-      if(weeklyWeather.value !== null) {
-        currentWeather.value = weeklyWeather?.value.current;
+      if(weeklyWeather.value) {
+        currentWeather.value = {...weeklyWeather?.value.current, hour: weeklyWeather?.value.forecast.forecastday[0].hour};
+        console.log(currentWeather.value);
         handleBlur(); // Disabling search window
         getDateByCity(); // Finding date for found city
+      } else if(!weeklyWeather.value || !weeklyWeather.value.current || !weeklyWeather.value.forecast.forecastday) {
+        throw createError({statusCode: 404, statusMessage: `Couldn't determine the weather in ${city}, try again.`});
       }
 
     } catch(error) {
@@ -405,7 +418,7 @@
     if(weatherInfo.index !== 0) {
       currentWeather.value = {...weeklyWeather?.value.forecast.forecastday[weatherInfo.index], ...weatherInfo};
     }
-    else currentWeather.value = weeklyWeather?.value.current;
+    else currentWeather.value = {...weeklyWeather?.value.current, hour: weeklyWeather?.value.forecast.forecastday[0].hour};
   };
 
   // Search
@@ -418,7 +431,7 @@
     }
   };
 
-  // For input focusing
+  // For search window opening
   const handleFocus = async () => {
     isFocused.value = true;
     document.body.style.overflow = 'hidden';
@@ -427,7 +440,7 @@
     await nextTick();
     searchInput?.value.focus();
   };
-  // When search window closing
+  // For search window closing
   const handleBlur = () => {
     isFocused.value = false;
     // Disabling scrolling
@@ -438,9 +451,13 @@
   };
 
   // Swiper configuration
+  const hourlySwiper = ref(null);
   const weeklySwiper = ref(null);
   const additionsSwiper = ref(null);
 
+  const onHourlySwiper = (swiper) => {
+    hourlySwiper.value = swiper;
+  };
   const onWeeklySwiper = (swiper) => {
     weeklySwiper.value = swiper;
   };

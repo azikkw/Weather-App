@@ -8,7 +8,9 @@ export const search = (query) => {
     for(const country in citiesData) {
         const cities = citiesData[country];
         const filteredCities = cities.filter(city => city.toLowerCase().match(query));
-        matchedCities.push(...filteredCities);
+        filteredCities.forEach(name => {
+            matchedCities.push({ name, country });
+        });
     }
     return matchedCities;
 }
