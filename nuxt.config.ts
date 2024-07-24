@@ -21,10 +21,6 @@ export default defineNuxtConfig({
         {
           name: 'description',
           content: 'A web application for displaying real-time weather in user-selected cities.'
-        },
-        {
-          name: 'viewport',
-          content: 'width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no'
         }
       ]
     }
