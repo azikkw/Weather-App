@@ -7,11 +7,7 @@ export default defineNuxtConfig({
     host: '0.0.0.0',
     port: 3000
   },
-  modules: [
-    '@nuxtjs/tailwindcss',
-    '@nuxt/icon',
-    'nuxt-swiper'
-  ],
+  modules: ['@nuxtjs/tailwindcss', '@nuxt/icon', 'nuxt-swiper', "@nuxt/image"],
   app: {
     head: {
       title: "Weather Forecast",

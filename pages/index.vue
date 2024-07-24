@@ -32,7 +32,7 @@
     <header>
       <!-- Logotype -->
       <div class="logo">
-        <img src="/images/weather-app.png" alt="logo" />
+        <NuxtImg src="/images/weather-app.png" alt="logo" />
         <span class="font-bold">Weather</span>
       </div>
       <!-- Current location -->
@@ -106,11 +106,11 @@
             </span>
             <div class="temp-detail-back">
               <div class="temp-detail lg:mb-2">
-                <img src="/images/high-temp.png" alt="h-temp" />
+                <NuxtImg src="/images/high-temp.png" alt="h-temp" />
                 <span>H: {{Math.round(currentWeather?.day.maxtemp_c)}}°C</span>
               </div>
               <div class="temp-detail">
-                <img src="/images/low-temp.png" alt="l-temp" />
+                <NuxtImg src="/images/low-temp.png" alt="l-temp" />
                 <span>L: {{Math.round(currentWeather?.day.mintemp_c)}}°C</span>
               </div>
             </div>
@@ -130,15 +130,15 @@
         <div class="weather-details">
           <span class="hidden lg:block">Weather Details</span>
           <div class="detail-item border-b sm:border-none !rounded-b-none sm:!rounded-xl mt-3 lg:mt-5">
-            <img src="/images/information.png" alt="cloud" />
+            <NuxtImg src="/images/information.png" alt="cloud" />
             <span class="detail-item-span">{{currentWeather?.day === undefined ? currentWeather?.condition.text : currentWeather?.day?.condition?.text}}</span>
           </div>
           <div class="detail-item border-b sm:border-none !rounded-none sm:!rounded-xl sm:mt-3">
-            <img src="/images/humidity.png" alt="humidity" />
+            <NuxtImg src="/images/humidity.png" alt="humidity" />
             <span class="detail-item-span">Humidity - {{currentWeather?.day === undefined ? currentWeather?.humidity : currentWeather?.day?.avghumidity}}%</span>
           </div>
           <div class="detail-item !rounded-t-none rounded-b-xl sm:!rounded-xl sm:mt-3">
-            <img src="/images/wind.png" alt="wind" />
+            <NuxtImg src="/images/wind.png" alt="wind" />
             <span class="detail-item-span">Wind - {{currentWeather?.day === undefined ? Math.round(currentWeather?.wind_kph) : Math.round(currentWeather?.day?.maxwind_kph)}}km/h</span>
           </div>
         </div>
@@ -151,10 +151,10 @@
           <div class="title_nav">
             Hourly Forecast
             <div class="swiper-navigation">
-              <button class="hourly-nav-prev border border-black hover:opacity-70" aria-label="Weekly Prev Btn">
+              <button class="hourly-nav-prev swp-btn border border-black hover:opacity-70" aria-label="Weekly Prev Btn">
                 <Icon name="prime:arrow-up-right" size="21" class="opacity-85" />
               </button>
-              <button class="hourly-nav-next bg-blue-500 hover:bg-blue-400" aria-label="Weekly Next Btn">
+              <button class="hourly-nav-next swp-btn bg-blue-500 hover:bg-blue-400" aria-label="Weekly Next Btn">
                 <Icon name="prime:arrow-up-right" size="21" class="text-white" />
               </button>
             </div>
@@ -179,10 +179,10 @@
           <div class="title_nav">
             Weekly Forecast
             <div class="swiper-navigation">
-              <button class="weekly-nav-prev border border-black hover:opacity-70" aria-label="Weekly Prev Btn">
+              <button class="weekly-nav-prev swp-btn border border-black hover:opacity-70" aria-label="Weekly Prev Btn">
                 <Icon name="prime:arrow-up-right" size="21" class="opacity-85" />
               </button>
-              <button class="weekly-nav-next bg-blue-500 hover:bg-blue-400" aria-label="Weekly Next Btn">
+              <button class="weekly-nav-next swp-btn bg-blue-500 hover:bg-blue-400" aria-label="Weekly Next Btn">
                 <Icon name="prime:arrow-up-right" size="21" class="text-white" />
               </button>
             </div>
@@ -207,10 +207,10 @@
           <div class="title_nav">
             Other Weather Details
             <div class="swiper-navigation">
-              <button class="additions-nav-prev border border-black hover:opacity-70" aria-label="Additions Prev Btn">
+              <button class="additions-nav-prev swp-btn border border-black hover:opacity-70" aria-label="Additions Prev Btn">
                 <Icon name="prime:arrow-up-right" size="21" class="opacity-85" />
               </button>
-              <button class="additions-nav-next bg-blue-500 hover:bg-blue-400" aria-label="Additions Next Btn">
+              <button class="additions-nav-next swp-btn bg-blue-500 hover:bg-blue-400" aria-label="Additions Next Btn">
                 <Icon name="prime:arrow-up-right" size="21" class="text-white" />
               </button>
             </div>
@@ -227,14 +227,14 @@
             <SwiperSlide>
               <div class="sun-rise-set-back">
                 <div class="rise-set-detail">
-                  <img src="/images/sunrise.png" alt="sunrise" />
+                  <NuxtImg src="/images/sunrise.png" alt="sunrise" />
                   <div class="rise-set-detail-text">
                     <span class="opacity-75">Sunrise</span>
                     <span>{{currentWeather?.day === undefined ? weeklyWeather?.forecast.forecastday[0].astro.sunrise : currentWeather?.astro.sunrise}}</span>
                   </div>
                 </div>
                 <div class="rise-set-detail">
-                  <img src="/images/sunset.png" alt="sunset" />
+                  <NuxtImg src="/images/sunset.png" alt="sunset" />
                   <div class="rise-set-detail-text">
                     <span class="opacity-75">Sunset</span>
                     <span>{{currentWeather?.day === undefined ? weeklyWeather?.forecast.forecastday[0].astro.sunset : currentWeather?.astro.sunset}}</span>
@@ -248,7 +248,7 @@
                   <span class="opacity-75">Feels like</span>
                   <span>{{Math.round(currentWeather?.feelslike_c)}}°C</span>
                 </div>
-                <img src="/images/thermometer.png" alt="thermometer" />
+                <NuxtImg src="/images/thermometer.png" alt="thermometer" />
               </div>
             </SwiperSlide>
             <SwiperSlide>
@@ -257,7 +257,7 @@
                   <span class="opacity-75">{{currentWeather?.day === undefined ? 'Precipitation' : 'Avg. Precipitation'}}</span>
                   <span>{{currentWeather?.day === undefined ? Math.round(currentWeather?.precip_mm) : Math.round(currentWeather?.day.totalprecip_mm)}}mm</span>
                 </div>
-                <img src="/images/precipitation.png" alt="precipitation" />
+                <NuxtImg src="/images/precipitation.png" alt="precipitation" />
               </div>
             </SwiperSlide>
             <SwiperSlide>
@@ -266,7 +266,7 @@
                   <span class="opacity-75">{{currentWeather?.day === undefined ? 'UV Index' : 'Avg. UV Index'}}</span>
                   <span>{{currentWeather?.day === undefined ? Math.round(currentWeather?.uv) : Math.round(currentWeather?.day.uv)}}</span>
                 </div>
-                <img src="/images/uv.png" alt="uv" />
+                <NuxtImg src="/images/uv.png" alt="uv" />
               </div>
             </SwiperSlide>
             <SwiperSlide>
@@ -275,7 +275,7 @@
                   <span class="opacity-75">{{currentWeather?.day === undefined ? 'Visibility' : 'Avg. Visibility'}}</span>
                   <span>{{currentWeather?.day === undefined ? Math.round(currentWeather?.vis_km) : Math.round(currentWeather?.day.avgvis_km)}}km</span>
                 </div>
-                <img src="/images/visibility.png" alt="visibility" />
+                <NuxtImg src="/images/visibility.png" alt="visibility" />
               </div>
             </SwiperSlide>
             <SwiperSlide>
@@ -284,7 +284,7 @@
                   <span class="opacity-75">{{currentWeather?.day === undefined ? 'Pressure' : 'Avg. Pressure'}}</span>
                   <span>{{currentWeather?.day === undefined ? Math.round(currentWeather?.pressure_in) : Math.round(currentWeather?.hour[10].pressure_in)}} in</span>
                 </div>
-                <img src="/images/pressure.png" alt="pressure" />
+                <NuxtImg src="/images/pressure.png" alt="pressure" />
               </div>
             </SwiperSlide>
           </Swiper>
@@ -292,10 +292,12 @@
       </div>
     </div>
     <!-- GitHub if w=768 -->
-    <a class="github" href="https://github.com/azikkw/Weather-App" target="_blank">
-      <Icon name="mdi:github" size="30px"/>
-      azikkw
-    </a>
+    <footer class="lg:hidden">
+      <a class="github" href="https://github.com/azikkw/Weather-App" target="_blank">
+        <Icon name="mdi:github" size="30px"/>
+        azikkw
+      </a>
+    </footer>
   </div>
 </template>
 
@@ -307,11 +309,6 @@
   import SwiperCore from "swiper";
   import { Swiper, SwiperSlide } from "swiper/vue";
   import { Navigation, FreeMode } from "swiper/modules";
-  import "swiper/swiper-bundle.css";
-
-  import { search } from "~/services/SearchCityService.js";
-  import {weatherImageMap} from "~/types/weatherImage.js";
-  import HourlyCard from "~/components/HourlyCard.vue";
 
   const welcome = ref(false);
   const themeMode = ref(null);

@@ -8,6 +8,10 @@
     src: url("/assets/fonts/Satoshi-Variable.ttf");
 }
 
+body {
+    @apply font-satoshi font-normal bg-background-color;
+}
+
 /* Welcome page for user first interaction with website */
 .first-page {
     @apply w-full h-screen flex flex-col justify-center lg:justify-start items-center p-[15px] pb-[120px] lg:pb-0 lg:pt-[100px] transition-all duration-300;
@@ -35,7 +39,7 @@
 
 /* Background */
 .background-page {
-    @apply w-full h-auto sm:h-screen font-satoshi font-normal bg-background-color overflow-x-hidden;
+    @apply w-full h-auto sm:h-screen overflow-x-hidden;
 }
 /* Dark mode options */
 .background-page.dark-mode {
@@ -315,12 +319,7 @@ hr {
 .swiper-navigation {
     @apply flex items-center gap-2;
 }
-.hourly-nav-prev,
-.hourly-nav-next,
-.weekly-nav-prev,
-.weekly-nav-next,
-.additions-nav-prev,
-.additions-nav-next {
+.swp-btn {
     @apply w-[34px] h-[34px] rounded-3xl hidden lg:flex justify-center items-center transition-opacity duration-200;
 }
 /* Dark mode options */
@@ -329,10 +328,10 @@ hr {
 .background-page.dark-mode .additions-nav-prev {
     @apply border-white;
 }
-.swiper-navigation button .iconify {
+.swiper-navigation .swp-btn span {
     @apply cursor-pointer rotate-[225deg];
 }
-.swiper-navigation button:nth-child(2) .iconify {
+.swiper-navigation .swp-btn:nth-child(2) span {
     @apply rotate-45;
 }
 
@@ -463,7 +462,7 @@ hr {
 
 /* GitHub */
 .github {
-    @apply w-full py-[20px] text-[18px] flex lg:hidden justify-center opacity-80 gap-2 bg-white font-medium mt-3;
+    @apply w-full py-[20px] text-[18px] flex justify-center opacity-80 gap-2 bg-white font-medium mt-3;
 }
 
 

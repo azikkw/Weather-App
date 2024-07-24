@@ -1,5 +1,5 @@
 <template>
-  <img :src="typeof weatherImageMap[code] === 'object' ? weatherImageMap[code][isDay] : weatherImageMap[code]" alt="weather" class="current-weather-icon"/>
+  <NuxtImg :src="typeof weatherImageMap[code] === 'object' ? weatherImageMap[code][isDay] : weatherImageMap[code]" alt="weather" class="current-weather-icon"/>
 </template>
 
 <script setup>
