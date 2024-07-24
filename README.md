@@ -15,6 +15,14 @@ You can access `Weather Forecast` by this link:
 
 ---
 
+## 📱 FUNCTIONALITY
+#### In Weather Forecast user can:
+1. Search weather in different cities
+2. View daily and weekly weather forecast
+3. View various additional weather info
+
+---
+
 ## 📝 PREPARING FOR IMPORTING
 #### To start importing a project `If you want to run it without docker`, you need to:
 [Node.js](https://nodejs.org/en) version 18.0.0 [min] and more.
