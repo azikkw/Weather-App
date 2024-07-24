@@ -4,9 +4,6 @@
 
 > The Weather Forecast app is a user-friendly application designed to provide accurate and timely weather information depending on the city you choose. Whether you are planning your day or preparing for a trip, the Weather Forecast app ensures that you have the most reliable weather information at your fingertips.
 
-#### In this project used:
-1. [Weather API](https://www.weatherapi.com/)
-
 ---
 
 ## 🌐 BASE URL
